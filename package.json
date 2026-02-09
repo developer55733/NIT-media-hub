@@ -1,0 +1,52 @@
+{
+  "name": "media-hub",
+  "version": "1.0.0",
+  "description": "A comprehensive YouTube-like media sharing platform for videos, music, courses, and educational content",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "build": "echo 'Build completed'",
+    "test": "echo 'Run tests here'",
+    "setup": "mkdir -p uploads && echo 'Uploads directory created'"
+  },
+  "keywords": [
+    "media-platform",
+    "video-sharing",
+    "youtube-clone",
+    "music-platform",
+    "educational-content",
+    "streaming",
+    "content-creation",
+    "social-media"
+  ],
+  "author": "Media Hub Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/developer55733/media-hub.git"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "multer": "^1.4.5",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "helmet": "^7.1.0",
+    "express-rate-limit": "^7.1.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2",
+    "eslint": "^8.57.0",
+    "prettier": "^3.1.1",
+    "jest": "^29.7.0"
+  },
+  "engines": {
+    "node": ">=14.0.0",
+    "npm": ">=6.0.0"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ]
+}
