@@ -3,887 +3,221 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Media Hub - Watch • Learn • Share</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Media Hub - University Content Platform</title>
+    <link rel="stylesheet" href="css/uni-hub-style.css">
     <link rel="stylesheet" href="css/media-player.css">
-    <!-- Font Awesome - Most Reliable CDN -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <meta name="description" content="Media Hub - Your platform for watching, learning, and sharing amazing content">
-    <meta name="keywords" content="videos, music, courses, streaming, media, entertainment">
-    <meta name="author" content="Media Hub">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <!-- Header -->
     <header class="header">
-        <div class="container">
-            <div class="header-left">
-                <button class="menu-toggle" id="menu-toggle">
-                    <i class="fas fa-bars"></i>
+        <div class="header-left">
+            <div class="logo">
+                <h1>Media Hub</h1>
+            </div>
+            <div class="search-bar">
+                <input type="text" id="search-input" placeholder="Search content...">
+                <button id="search-btn">Search</button>
+            </div>
+        </div>
+        <div class="header-right">
+            <button id="theme-toggle">
+                <span>Theme</span>
+            </button>
+            <button id="notification-btn">
+                <span>Notifications</span>
+            </button>
+            <button id="upload-btn">
+                <span>Upload</span>
+            </button>
+            <div class="user-menu">
+                <button id="user-avatar">
+                    <span>Account</span>
                 </button>
-                <div class="logo">
-                    <h1><i class="fas fa-play-circle"></i></h1>
-                    <p>Watch • Learn • Share</p>
-                </div>
-            </div>
-            <div class="header-center">
-                <div class="search-container">
-                    <div class="search-bar">
-                        <input type="text" id="search-input" placeholder="Search videos, music, courses..." class="search-input">
-                        <button id="search-btn" class="search-btn">
-                            <i class="fas fa-search"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <div class="header-right">
-                <div class="user-actions">
-                    <button class="action-btn upload-btn" id="upload-btn">
-                        <i class="fas fa-video"></i>
-                    </button>
-                    <button class="action-btn">
-                        <i class="fas fa-bell"></i>
-                    </button>
-                    <div class="user-menu">
-                        <button id="user-menu-btn" class="user-menu-btn">
-                            <i class="fas fa-user-circle"></i>
-                        </button>
-                        <div id="user-dropdown" class="user-dropdown" style="display: none;">
-                            <a href="#profile" class="dropdown-link">My Channel</a>
-                            <a href="#studio" class="dropdown-link">Creator Studio</a>
-                            <a href="#settings" class="dropdown-link">Settings</a>
-                            <a href="#" id="register-btn" class="dropdown-link">Create Account</a>
-                            <a href="#" id="login-btn" class="dropdown-link">Sign In</a>
-                            <a href="#" id="logout-btn" class="dropdown-link">Sign Out</a>
-                        </div>
-                    </div>
+                <div class="user-dropdown">
+                    <a href="#"><span>My Channel</span></a>
+                    <a href="#"><span>Creator Studio</span></a>
+                    <a href="#"><span>Settings</span></a>
+                    <a href="#"><span>Create Account</span></a>
+                    <a href="#"><span>Sign In</span></a>
+                    <a href="#"><span>Sign Out</span></a>
                 </div>
             </div>
         </div>
     </header>
 
-    <!-- YouTube-like Sidebar -->
-    <aside class="sidebar" id="sidebar">
-        <div class="sidebar-section">
-            <div class="sidebar-title">Menu</div>
-            <a href="#home" class="sidebar-item active" data-section="home">
-                <i class="fas fa-home"></i>
-                <span>Home</span>
-            </a>
-            <a href="#videos" class="sidebar-item" data-section="videos">
-                <i class="fas fa-video"></i>
-                <span>Videos</span>
-            </a>
-            <a href="#music" class="sidebar-item" data-section="music">
-                <i class="fas fa-music"></i>
-                <span>Music</span>
-            </a>
-            <a href="#games" class="sidebar-item" data-section="games">
-                <i class="fas fa-gamepad"></i>
-                <span>Games</span>
-            </a>
-            <a href="#courses" class="sidebar-item" data-section="courses">
-                <i class="fas fa-graduation-cap"></i>
-                <span>Courses</span>
-            </a>
-            <a href="#posts" class="sidebar-item" data-section="posts">
-                <i class="fas fa-stream"></i>
-                <span>Posts</span>
-            </a>
-        </div>
-        
-        <div class="sidebar-section">
-            <div class="sidebar-title">Library</div>
-            <a href="#history" class="sidebar-item">
-                <i class="fas fa-history"></i>
-                <span>History</span>
-            </a>
-            <a href="#liked" class="sidebar-item">
-                <i class="fas fa-thumbs-up"></i>
-                <span>Liked videos</span>
-            </a>
-            <a href="#watch-later" class="sidebar-item">
-                <i class="fas fa-clock"></i>
-                <span>Watch later</span>
-            </a>
-            <a href="#downloads" class="sidebar-item">
-                <i class="fas fa-download"></i>
-                <span>Downloads</span>
-            </a>
-        </div>
-        
-        <div class="sidebar-section">
-            <div class="sidebar-title">Subscriptions</div>
-            <a href="#subscriptions" class="sidebar-item">
-                <i class="fas fa-play-circle"></i>
-                <span>All subscriptions</span>
-            </a>
-            <a href="#live" class="sidebar-item">
-                <i class="fas fa-broadcast-tower"></i>
-                <span>Live</span>
-            </a>
-        </div>
-        
-        <div class="sidebar-section">
-            <div class="sidebar-title">More</div>
-            <a href="#settings" class="sidebar-item">
-                <i class="fas fa-cog"></i>
-                <span>Settings</span>
-            </a>
-            <a href="#help" class="sidebar-item">
-                <i class="fas fa-question-circle"></i>
-                <span>Help</span>
-            </a>
-            <a href="#feedback" class="sidebar-item">
-                <i class="fas fa-comment"></i>
-                <span>Send feedback</span>
-            </a>
-        </div>
-    </aside>
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>Menu</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#" class="sidebar-item active" data-section="home">
+                    <span>Home</span>
+                </a>
+                <a href="#" class="sidebar-item" data-section="videos">
+                    <span>Videos</span>
+                </a>
+                <a href="#" class="sidebar-item" data-section="music">
+                    <span>Music</span>
+                </a>
+                <a href="#" class="sidebar-item" data-section="games">
+                    <span>Games</span>
+                </a>
+                <a href="#" class="sidebar-item" data-section="courses">
+                    <span>Courses</span>
+                </a>
+                <a href="#" class="sidebar-item" data-section="posts">
+                    <span>Posts</span>
+                </a>
+            </nav>
+        </aside>
 
-    <!-- Main Content Wrapper -->
-    <div class="main-wrapper" id="main-wrapper">
-        <main class="main-content">
-        <!-- Live Streaming Section -->
-    <section id="live" class="content-section">
-        <div class="container">
-            <h2><i class="fas fa-broadcast-tower"></i> Live Streaming</h2>
-            
-            <!-- Start Stream Controls -->
-            <div class="stream-controls">
-                <div class="stream-info">
-                    <h3>Start Your Live Stream</h3>
-                    <p>Go live and connect with your audience in real-time</p>
-                </div>
-                <div class="stream-actions">
-                    <input type="text" id="stream-title" placeholder="Stream Title" class="form-input">
-                    <select id="stream-category" class="form-select">
-                        <option value="gaming">Gaming</option>
-                        <option value="music">Music</option>
-                        <option value="education">Education</option>
-                        <option value="talk">Talk Show</option>
-                    </select>
-                    <button id="start-stream-btn" class="btn btn-primary">
-                        <i class="fas fa-video"></i> Start Stream
-                    </button>
-                    <button id="end-stream-btn" class="btn btn-danger" style="display: none;">
-                        <i class="fas fa-stop"></i> End Stream
-                    </button>
-                </div>
+        <!-- Content Area -->
+        <main class="content-area">
+            <!-- Category Navigation -->
+            <div class="category-nav">
+                <button class="category-btn active" data-filter="all">All</button>
+                <button class="category-btn" data-filter="videos">Videos</button>
+                <button class="category-btn" data-filter="music">Music</button>
+                <button class="category-btn" data-filter="games">Games</button>
+                <button class="category-btn" data-filter="courses">Courses</button>
+                <button class="category-btn" data-filter="posts">Posts</button>
             </div>
 
-            <!-- Stream Status -->
-            <div class="stream-status-bar">
-                <div class="stream-status offline" id="stream-status">OFFLINE</div>
-                <div class="viewer-count" id="viewer-count"></div>
-                <div class="stream-duration" id="stream-duration">00:00:00</div>
-            </div>
-
-            <!-- Active Streams -->
-            <div class="active-streams">
-                <h3>Live Now</h3>
-                <div id="live-streams-grid" class="video-grid">
-                    <!-- Live streams will be loaded here -->
-                </div>
-            </div>
-
-            <!-- Live Chat -->
-            <div class="live-chat-container">
-                <div class="chat-header">
-                    <h4>Live Chat</h4>
-                    <div class="chat-actions">
-                        <button class="btn btn-sm" id="chat-settings-btn">
-                            <i class="fas fa-cog"></i>
-                        </button>
+            <!-- Featured Section -->
+            <section class="featured-section">
+                <div class="container">
+                    <h2>Featured Content</h2>
+                    <div id="featured-grid" class="featured-grid">
+                        <!-- Featured content will be loaded here -->
                     </div>
                 </div>
-                <div class="chat-messages" id="live-chat-messages">
-                    <!-- Chat messages will appear here -->
-                </div>
-                <div class="chat-input-container">
-                    <input type="text" id="chat-input" placeholder="Type a message..." class="chat-input">
-                    <button id="send-chat-btn" class="btn btn-primary">
-                        <i class="fas fa-paper-plane"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </section>
+            </section>
 
-    <!-- Playlists Section -->
-    <section id="playlists" class="content-section">
-        <div class="container">
-            <div class="section-header">
-                <h2><i class="fas fa-list"></i> My Playlists</h2>
-                <button class="btn btn-primary" id="create-playlist-btn">
-                    <i class="fas fa-plus"></i> Create Playlist
-                </button>
-            </div>
-            
-            <div id="playlists-container" class="playlist-grid">
-                <!-- Playlists will be loaded here -->
-            </div>
-        </div>
-    </section>
-
-    <!-- Notifications Section -->
-    <section id="notifications" class="content-section">
-        <div class="container">
-            <div class="section-header">
-                <h2><i class="fas fa-bell"></i> Notifications</h2>
-                <div class="notification-actions">
-                    <button class="btn btn-outline" id="notification-settings-btn">
-                        <i class="fas fa-cog"></i> Settings
-                    </button>
-                    <button class="btn btn-outline" id="clear-notifications-btn">
-                        <i class="fas fa-trash"></i> Clear All
-                    </button>
-                </div>
-            </div>
-            
-            <div id="notifications-list" class="notifications-container">
-                <!-- Notifications will be loaded here -->
-            </div>
-        </div>
-    </section>
-
-    <!-- Search Results Section -->
-    <section id="search" class="content-section">
-        <div class="container">
-            <div class="section-header">
-                <h2><i class="fas fa-search"></i> Search Results</h2>
-            </div>
-            <div id="search-results" class="search-results">
-                <!-- Search results will be loaded here -->
-            </div>
-        </div>
-    </section>
-
-    <!-- Games Section -->
-    <section id="games" class="content-section">
-        <div class="container">
-            <div class="section-header">
-                <h2><i class="fas fa-gamepad"></i> Games</h2>
-                <div class="filter-tabs">
-                    <button class="tab-btn active" data-filter="all">All</button>
-                    <button class="tab-btn" data-filter="action">Action</button>
-                    <button class="tab-btn" data-filter="rpg">RPG</button>
-                    <button class="tab-btn" data-filter="racing">Racing</button>
-                    <button class="tab-btn" data-filter="puzzle">Puzzle</button>
-                </div>
-            </div>
-            <div id="games" class="game-grid">
-                <!-- Games will be loaded here -->
-            </div>
-        </div>
-    </section>
-
-    <!-- User Posts Section -->
-    <section id="posts" class="content-section">
-        <div class="container">
-            <div class="section-header">
-                <h2><i class="fas fa-stream"></i> Community Posts</h2>
-                <div class="filter-tabs">
-                    <button class="tab-btn active" data-filter="all">All Posts</button>
-                    <button class="tab-btn" data-filter="videos">Videos</button>
-                    <button class="tab-btn" data-filter="music">Music</button>
-                    <button class="tab-btn" data-filter="games">Games</button>
-                    <button class="tab-btn" data-filter="courses">Courses</button>
-                </div>
-            </div>
-            <div id="posts" class="posts-feed">
-                <!-- Posts will be loaded here -->
-            </div>
-        </div>
-    </section>
-
-    <!-- Videos Section -->
-    <section id="videos" class="content-section">
-        <div class="container">
-            <div class="section-header">
-                <h2><i class="fas fa-video"></i> Videos</h2>
-                <div class="filter-tabs">
-                    <button class="tab-btn active" data-filter="all">All</button>
-                    <button class="tab-btn" data-filter="trending">Trending</button>
-                    <button class="tab-btn" data-filter="recent">Recent</button>
-                    <button class="tab-btn" data-filter="popular">Popular</button>
-                </div>
-            </div>
-            <div id="videos" class="video-grid">
-                <!-- Videos will be loaded here -->
-            </div>
-        </div>
-    </section>
-
-    <!-- Music/Songs Section -->
-    <section id="music" class="content-section">
-        <div class="container">
-            <div class="section-header">
-                <h2><i class="fas fa-music"></i> Music</h2>
-                <div class="filter-tabs">
-                    <button class="tab-btn active" data-filter="all">All</button>
-                    <button class="tab-btn" data-filter="electronic">Electronic</button>
-                    <button class="tab-btn" data-filter="acoustic">Acoustic</button>
-                    <button class="tab-btn" data-filter="pop">Pop</button>
-                </div>
-            </div>
-            <div id="music" class="song-grid">
-                <!-- Songs will be loaded here -->
-            </div>
-        </div>
-    </section>
-
-    <!-- News Section -->
-    <section id="news" class="content-section">
-        <div class="container">
-            <div class="section-header">
-                <h2><i class="fas fa-newspaper"></i> News</h2>
-                <div class="filter-tabs">
-                    <button class="tab-btn active" data-filter="all">All</button>
-                    <button class="tab-btn" data-filter="technology">Technology</button>
-                    <button class="tab-btn" data-filter="sports">Sports</button>
-                    <button class="tab-btn" data-filter="entertainment">Entertainment</button>
-                </div>
-            </div>
-            <div id="news-container" class="news-grid">
-                <!-- News will be loaded here -->
-            </div>
-        </div>
-    </section>
-
-    <!-- Profiles Section -->
-    <section id="profiles" class="content-section">
-        <div class="container">
-            <div class="section-header">
-                <h2><i class="fas fa-users"></i> Featured Profiles</h2>
-                <div class="filter-tabs">
-                    <button class="tab-btn active" data-filter="all">All</button>
-                    <button class="tab-btn" data-filter="creators">Creators</button>
-                    <button class="tab-btn" data-filter="educators">Educators</button>
-                    <button class="tab-btn" data-filter="artists">Artists</button>
-                </div>
-            </div>
-            <div id="profiles-container" class="profile-grid">
-                <!-- Profiles will be loaded here -->
-            </div>
-        </div>
-    </section>
-
-    <!-- Courses Section -->
-    <section id="courses" class="content-section">
-        <div class="container">
-            <div class="section-header">
-                <h2><i class="fas fa-graduation-cap"></i> Courses</h2>
-                <div class="filter-tabs">
-                    <button class="tab-btn active" data-filter="all">All</button>
-                    <button class="tab-btn" data-filter="programming">Programming</button>
-                    <button class="tab-btn" data-filter="marketing">Marketing</button>
-                    <button class="tab-btn" data-filter="design">Design</button>
-                </div>
-            </div>
-            <div id="courses" class="course-grid">
-                <!-- Courses will be loaded here -->
-            </div>
-        </div>
-    </section>
-
-    <!-- Home Section -->
-    <section id="home" class="content-section active">
-        <div class="container">
-                <div class="featured-video">
-                    <div class="featured-player">
-                        <video id="featured-video-player" controls poster="https://picsum.photos/seed/featured/1200/600.jpg">
-                            <source src="" type="video/mp4">
-                            Your browser does not support the video tag.
-                        </video>
-                        <div class="featured-overlay">
-                            <h2 id="featured-title">Featured Content</h2>
-                            <p id="featured-description">Discover amazing content from our creators</p>
-                            <div class="featured-stats">
-                                <span id="featured-views"><i class="fas fa-eye"></i> 0 views</span>
-                                <span id="featured-date"><i class="fas fa-calendar"></i> Today</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Video Grid -->
-                <div class="video-grid-container">
-                    <div class="section-header">
-                        <h3><i class="fas fa-fire"></i> Recommended for You</h3>
-                        <button class="btn btn-outline">View All</button>
-                    </div>
-                    <div id="home-videos" class="video-grid">
-                        <div class="loading">
-                            <div class="spinner"></div>
-                        </div>
+            <!-- Videos Section -->
+            <section id="videos" class="content-section">
+                <div class="container">
+                    <h2>Videos</h2>
+                    <div id="videos" class="content-grid">
                         <!-- Videos will be loaded here -->
                     </div>
                 </div>
+            </section>
 
-                <!-- Categories Preview -->
-                <div class="categories-preview">
-                    <div class="section-header">
-                        <h3><i class="fas fa-th-large"></i> Browse Categories</h3>
-                    </div>
-                    <div class="category-grid">
-                        <div class="category-card" data-category="music">
-                            <div class="category-icon">
-                                <i class="fas fa-music"></i>
-                            </div>
-                            <h4>Music</h4>
-                            <p>Latest songs and albums</p>
-                        </div>
-                        <div class="category-card" data-category="movies">
-                            <div class="category-icon">
-                                <i class="fas fa-film"></i>
-                            </div>
-                            <h4>Movies</h4>
-                            <p>Short films and movies</p>
-                        </div>
-                        <div class="category-card" data-category="courses">
-                            <div class="category-icon">
-                                <i class="fas fa-graduation-cap"></i>
-                            </div>
-                            <h4>Courses</h4>
-                            <p>Educational content</p>
-                        </div>
-                        <div class="category-card" data-category="gaming">
-                            <div class="category-icon">
-                                <i class="fas fa-gamepad"></i>
-                            </div>
-                            <h4>Gaming</h4>
-                            <p>Gaming videos and streams</p>
-                        </div>
-                        <div class="category-card" data-category="sports">
-                            <div class="category-icon">
-                                <i class="fas fa-football-ball"></i>
-                            </div>
-                            <h4>Sports</h4>
-                            <p>Sports highlights</p>
-                        </div>
-                        <div class="category-card" data-category="news">
-                            <div class="category-icon">
-                                <i class="fas fa-newspaper"></i>
-                            </div>
-                            <h4>News</h4>
-                            <p>Latest news updates</p>
-                        </div>
+            <!-- Music Section -->
+            <section id="music" class="content-section">
+                <div class="container">
+                    <h2>Music</h2>
+                    <div id="music" class="content-grid">
+                        <!-- Music will be loaded here -->
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <!-- Trending Section -->
-        <section id="trending" class="content-section">
-            <div class="container">
-                <div class="section-header">
-                    <h2><i class="fas fa-fire"></i> Trending Now</h2>
-                    <div class="trending-filters">
-                        <button class="filter-btn active" data-time="today">Today</button>
-                        <button class="filter-btn" data-time="week">This Week</button>
-                        <button class="filter-btn" data-time="month">This Month</button>
-                        <button class="filter-btn" data-time="all">All Time</button>
+            <!-- Games Section -->
+            <section id="games" class="content-section">
+                <div class="container">
+                    <h2>Games</h2>
+                    <div id="games" class="content-grid">
+                        <!-- Games will be loaded here -->
                     </div>
                 </div>
-                <div id="trending-videos" class="video-grid">
-                    <!-- Trending videos will be loaded here -->
-                </div>
-            </div>
-        </section>
+            </section>
 
-        <!-- Categories Section -->
-        <section id="categories" class="content-section">
-            <div class="container">
-                <h2><i class="fas fa-th-large"></i> Browse Categories</h2>
-                <div class="category-grid-full">
-                    <div class="category-card-large" data-category="music">
-                        <div class="category-bg" style="background: linear-gradient(135deg, #ff6b6b, #ee5a24);">
-                            <i class="fas fa-music"></i>
-                            <h3>Music</h3>
-                            <p>1.2M videos</p>
-                        </div>
-                    </div>
-                    <div class="category-card-large" data-category="movies">
-                        <div class="category-bg" style="background: linear-gradient(135deg, #4834d4, #686de0);">
-                            <i class="fas fa-film"></i>
-                            <h3>Movies</h3>
-                            <p>856K videos</p>
-                        </div>
-                    </div>
-                    <div class="category-card-large" data-category="courses">
-                        <div class="category-bg" style="background: linear-gradient(135deg, #00d2d3, #01a3a4);">
-                            <i class="fas fa-graduation-cap"></i>
-                            <h3>Courses</h3>
-                            <p>423K videos</p>
-                        </div>
-                    </div>
-                    <div class="category-card-large" data-category="gaming">
-                        <div class="category-bg" style="background: linear-gradient(135deg, #f9ca24, #f0932b);">
-                            <i class="fas fa-gamepad"></i>
-                            <h3>Gaming</h3>
-                            <p>2.1M videos</p>
-                        </div>
-                    </div>
-                    <div class="category-card-large" data-category="sports">
-                        <div class="category-bg" style="background: linear-gradient(135deg, #6ab04c, #badc58);">
-                            <i class="fas fa-football-ball"></i>
-                            <h3>Sports</h3>
-                            <p>567K videos</p>
-                        </div>
-                    </div>
-                    <div class="category-card-large" data-category="news">
-                        <div class="category-bg" style="background: linear-gradient(135deg, #eb4d4b, #c44569);">
-                            <i class="fas fa-newspaper"></i>
-                            <h3>News</h3>
-                            <p>234K videos</p>
-                        </div>
+            <!-- Courses Section -->
+            <section id="courses" class="content-section">
+                <div class="container">
+                    <h2>Courses</h2>
+                    <div id="courses" class="content-grid">
+                        <!-- Courses will be loaded here -->
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <!-- Upload Section -->
-        <section id="upload" class="content-section">
-            <div class="container">
-                <h2><i class="fas fa-upload"></i> Upload Content</h2>
-                <div class="upload-container">
-                    <form id="upload-form" class="upload-form">
-                        <div class="upload-main">
-                            <div class="upload-area" id="upload-area">
-                                <div class="upload-content">
-                                    <i class="fas fa-cloud-upload-alt"></i>
-                                    <h3>Drag and drop your video here</h3>
-                                    <p>or click to browse</p>
-                                    <input type="file" id="file-input" accept="video/*,audio/*" multiple hidden>
-                                    <button type="button" id="select-file-btn" class="btn btn-primary">Select Files</button>
-                                </div>
-                            </div>
-                            <div class="upload-preview" id="upload-preview" style="display: none;">
-                                <video id="preview-video" controls></video>
-                                <button type="button" id="remove-preview" class="btn btn-danger">
-                                    <i class="fas fa-times"></i> Remove
-                                </button>
-                            </div>
-                        </div>
-                        
-                        <div class="upload-details">
-                            <div class="form-group">
-                                <label for="video-title">Title *</label>
-                                <input type="text" id="video-title" required placeholder="Enter your video title..." class="form-input">
-                            </div>
-                            <div class="form-group">
-                                <label for="video-description">Description</label>
-                                <textarea id="video-description" placeholder="Tell viewers about your video..." class="form-textarea"></textarea>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="video-category">Category *</label>
-                                    <select id="video-category" required class="form-select">
-                                        <option value="">Select category</option>
-                                        <option value="music">🎵 Music</option>
-                                        <option value="movies">🎬 Movies</option>
-                                        <option value="courses">🎓 Courses</option>
-                                        <option value="gaming">🎮 Gaming</option>
-                                        <option value="sports">⚽ Sports</option>
-                                        <option value="news">📰 News</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="video-visibility">Visibility</label>
-                                    <select id="video-visibility" class="form-select">
-                                        <option value="public">🌍 Public</option>
-                                        <option value="unlisted">🔒 Unlisted</option>
-                                        <option value="private">🔐 Private</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="video-tags">Tags</label>
-                                <input type="text" id="video-tags" placeholder="Add tags separated by commas" class="form-input">
-                            </div>
-                            <div class="form-group">
-                                <label for="video-thumbnail">Custom Thumbnail</label>
-                                <input type="file" id="video-thumbnail" accept="image/*" class="form-input">
-                            </div>
-                            <div class="form-actions">
-                                <button type="button" id="save-draft-btn" class="btn btn-secondary">Save as Draft</button>
-                                <button type="submit" class="btn btn-primary">
-                                    <i class="fas fa-upload"></i> Upload Video
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </section>
-
-        <!-- Profile Section -->
-        <section id="profile" class="content-section">
-            <div class="container">
-                <div class="profile-header">
-                    <div class="profile-banner">
-                        <img src="https://picsum.photos/seed/banner/1200/300.jpg" alt="Profile Banner" class="banner-image">
-                        <div class="profile-avatar">
-                            <img id="profile-avatar-img" src="https://picsum.photos/seed/avatar/200/200.jpg" alt="Profile Avatar">
-                            <button id="change-avatar-btn" class="change-avatar-btn">
-                                <i class="fas fa-camera"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="profile-info">
-                        <h2 id="channel-name">Your Channel</h2>
-                        <p id="channel-description">Welcome to my channel! Subscribe for more amazing content.</p>
-                        <div class="channel-stats">
-                            <div class="stat">
-                                <span class="stat-number" id="subscribers">0</span>
-                                <span class="stat-label">Subscribers</span>
-                            </div>
-                            <div class="stat">
-                                <span class="stat-number" id="total-views">0</span>
-                                <span class="stat-label">Total Views</span>
-                            </div>
-                            <div class="stat">
-                                <span class="stat-number" id="video-count">0</span>
-                                <span class="stat-label">Videos</span>
-                            </div>
-                        </div>
-                        <div class="profile-actions">
-                            <button id="subscribe-btn" class="btn btn-primary">Subscribe</button>
-                            <button id="share-channel-btn" class="btn btn-outline">Share Channel</button>
-                        </div>
+            <!-- Posts Section -->
+            <section id="posts" class="content-section">
+                <div class="container">
+                    <h2>Posts</h2>
+                    <div id="posts" class="content-grid">
+                        <!-- Posts will be loaded here -->
                     </div>
                 </div>
+            </section>
+        </main>
+    </div>
 
-                <div class="profile-tabs">
-                    <button class="tab-btn active" data-tab="videos">Videos</button>
-                    <button class="tab-btn" data-tab="playlists">Playlists</button>
-                    <button class="tab-btn" data-tab="about">About</button>
-                </div>
-
-                <div class="profile-content">
-                    <div id="profile-videos" class="tab-content active">
-                        <div id="user-videos" class="video-grid">
-                            <!-- User videos will be loaded here -->
-                        </div>
-                    </div>
-                    <div id="profile-playlists" class="tab-content">
-                        <div class="playlist-grid">
-                            <div class="playlist-card">
-                                <img src="https://picsum.photos/seed/playlist1/300/200.jpg" alt="Playlist">
-                                <div class="playlist-info">
-                                    <h4>My Favorite Videos</h4>
-                                    <p>12 videos</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="profile-about" class="tab-content">
-                        <div class="about-section">
-                            <h3>About This Channel</h3>
-                            <p>This channel is dedicated to sharing amazing content with the world. Join us on this journey!</p>
-                            <div class="about-links">
-                                <h4>Links</h4>
-                                <a href="#" class="social-link"><i class="fab fa-twitter"></i> Twitter</a>
-                                <a href="#" class="social-link"><i class="fab fa-instagram"></i> Instagram</a>
-                                <a href="#" class="social-link"><i class="fab fa-youtube"></i> YouTube</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Admin Section -->
-        <section id="admin" class="content-section">
-            <div class="container">
-                <h2><i class="fas fa-cog"></i> Admin Dashboard</h2>
-                <div class="admin-grid">
-                    <div class="admin-card">
-                        <h3><i class="fas fa-video"></i> Content Management</h3>
-                        <div class="admin-stats">
-                            <div class="admin-stat">
-                                <span class="stat-value" id="total-videos">0</span>
-                                <span class="stat-label">Total Videos</span>
-                            </div>
-                            <div class="admin-stat">
-                                <span class="stat-value" id="pending-videos">0</span>
-                                <span class="stat-label">Pending Review</span>
-                            </div>
-                            <div class="admin-stat">
-                                <span class="stat-value" id="reported-videos">0</span>
-                                <span class="stat-label">Reported</span>
-                            </div>
-                        </div>
-                        <div class="admin-actions">
-                            <button id="manage-content-btn" class="btn btn-primary">Manage Content</button>
-                            <button id="moderate-btn" class="btn btn-secondary">Moderate</button>
-                        </div>
-                    </div>
-
-                    <div class="admin-card">
-                        <h3><i class="fas fa-users"></i> User Management</h3>
-                        <div class="admin-stats">
-                            <div class="admin-stat">
-                                <span class="stat-value" id="total-users">0</span>
-                                <span class="stat-label">Total Users</span>
-                            </div>
-                            <div class="admin-stat">
-                                <span class="stat-value" id="active-users">0</span>
-                                <span class="stat-label">Active Today</span>
-                            </div>
-                            <div class="admin-stat">
-                                <span class="stat-value" id="new-users">0</span>
-                                <span class="stat-label">New This Week</span>
-                            </div>
-                        </div>
-                        <div class="admin-actions">
-                            <button id="view-users-btn" class="btn btn-primary">View Users</button>
-                            <button id="manage-users-btn" class="btn btn-secondary">Manage Users</button>
-                        </div>
-                    </div>
-
-                    <div class="admin-card">
-                        <h3><i class="fas fa-chart-bar"></i> Analytics</h3>
-                        <div class="admin-stats">
-                            <div class="admin-stat">
-                                <span class="stat-value" id="total-views-admin">0</span>
-                                <span class="stat-label">Total Views</span>
-                            </div>
-                            <div class="admin-stat">
-                                <span class="stat-value" id="total-likes">0</span>
-                                <span class="stat-label">Total Likes</span>
-                            </div>
-                            <div class="admin-stat">
-                                <span class="stat-value" id="total-comments">0</span>
-                                <span class="stat-label">Total Comments</span>
-                            </div>
-                        </div>
-                        <div class="admin-actions">
-                            <button id="view-analytics-btn" class="btn btn-primary">View Analytics</button>
-                            <button id="export-data-btn" class="btn btn-secondary">Export Data</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <!-- Video Player Modal -->
-    <div id="video-modal" class="modal">
-        <div class="modal-content">
+    <!-- Upload Modal -->
+    <div id="upload-modal" class="modal-overlay">
+        <div class="modal">
             <div class="modal-header">
-                <button id="close-modal" class="close-btn">
-                    <i class="fas fa-times"></i>
+                <h3>Upload Content</h3>
+                <button class="modal-close" id="close-upload-modal">
+                    <span>Close</span>
                 </button>
             </div>
-            <div class="modal-body">
-                <div class="video-player-container">
-                    <video id="modal-video-player" controls>
-                        <source src="" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
+            <form id="upload-form" class="modal-form">
+                <div class="form-group">
+                    <label for="content-title">Title</label>
+                    <input type="text" id="content-title" required placeholder="Enter content title..." class="form-input">
                 </div>
-                <div class="video-info">
-                    <h2 id="modal-video-title">Video Title</h2>
-                    <div class="video-stats">
-                        <span id="modal-views"><i class="fas fa-eye"></i> 0 views</span>
-                        <span id="modal-date"><i class="fas fa-calendar"></i> Date</span>
-                        <span id="modal-category">Category</span>
-                    </div>
-                    <div class="video-actions">
-                        <button id="like-btn" class="btn btn-outline">
-                            <i class="fas fa-thumbs-up"></i> <span id="like-count">0</span>
-                        </button>
-                        <button id="dislike-btn" class="btn btn-outline">
-                            <i class="fas fa-thumbs-down"></i> <span id="dislike-count">0</span>
-                        </button>
-                        <button id="share-btn" class="btn btn-outline">
-                            <i class="fas fa-share"></i> Share
-                        </button>
-                        <button id="download-btn" class="btn btn-outline">
-                            <i class="fas fa-download"></i> Download
-                        </button>
-                        <button id="playlist-btn" class="btn btn-outline">
-                            <i class="fas fa-plus"></i> Save
-                        </button>
-                    </div>
-                    <div class="channel-info">
-                        <img id="modal-channel-avatar" src="https://picsum.photos/seed/channel/50/50.jpg" alt="Channel">
-                        <div class="channel-details">
-                            <h4 id="modal-channel-name">Channel Name</h4>
-                            <p id="modal-channel-subs">0 subscribers</p>
-                        </div>
-                        <button id="modal-subscribe-btn" class="btn btn-primary">Subscribe</button>
-                    </div>
-                    <div class="video-description">
-                        <h3>Description</h3>
-                        <p id="modal-description">Video description goes here...</p>
-                    </div>
-                    <div class="comments-section">
-                        <div class="comments-header">
-                            <h3><span id="comments-count">0</span> Comments</h3>
-                            <select id="sort-comments" class="sort-select">
-                                <option value="newest">Newest first</option>
-                                <option value="popular">Top comments</option>
-                            </select>
-                        </div>
-                        <div class="comment-form">
-                            <img src="https://picsum.photos/seed/user/40/40.jpg" alt="User" class="comment-avatar">
-                            <div class="comment-input-container">
-                                <input type="text" id="comment-input" placeholder="Add a public comment..." class="comment-input">
-                                <button id="post-comment-btn" class="btn btn-primary">Comment</button>
-                            </div>
-                        </div>
-                        <div id="comments-container" class="comments-container">
-                            <!-- Comments will be loaded here -->
-                        </div>
-                    </div>
+                <div class="form-group">
+                    <label for="content-category">Category</label>
+                    <select id="content-category" class="form-input">
+                        <option value="videos">Videos</option>
+                        <option value="music">Music</option>
+                        <option value="games">Games</option>
+                        <option value="courses">Courses</option>
+                        <option value="posts">Posts</option>
+                    </select>
                 </div>
-            </div>
+                <div class="form-group">
+                    <label for="content-description">Description</label>
+                    <textarea id="content-description" placeholder="Describe your content..." class="form-textarea"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="content-thumbnail">Thumbnail URL</label>
+                    <input type="url" id="content-thumbnail" placeholder="https://example.com/image.jpg" class="form-input">
+                </div>
+                <div class="form-group">
+                    <label for="content-author">Author</label>
+                    <input type="text" id="content-author" placeholder="Your name..." class="form-input">
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Upload Content</button>
+                    <button type="button" id="cancel-upload" class="btn btn-secondary">Cancel</button>
+                </div>
+            </form>
         </div>
     </div>
 
-    <!-- Registration Modal -->
-    <div id="register-modal" class="modal">
-        <div class="modal-content">
+    <!-- Notification Modal -->
+    <div id="notification-modal" class="modal-overlay">
+        <div class="modal">
             <div class="modal-header">
-                <h2><i class="fas fa-user-plus"></i> Create Account</h2>
-                <button id="close-register-modal" class="modal-close">&times;</button>
+                <h3>Notifications</h3>
+                <button class="modal-close" id="close-notification-modal">
+                    <span>Close</span>
+                </button>
             </div>
             <div class="modal-body">
-                <form id="register-form" class="auth-form">
-                    <div class="form-group">
-                        <label for="register-email">Email Address *</label>
-                        <input type="email" id="register-email" required placeholder="Enter your email..." class="form-input">
+                <div class="notifications-list">
+                    <div class="notification-item">
+                        <p>Welcome to Media Hub!</p>
+                        <span class="notification-time">Just now</span>
                     </div>
-                    <div class="form-group">
-                        <label for="register-username">Username *</label>
-                        <input type="text" id="register-username" required placeholder="Choose a username..." class="form-input">
+                    <div class="notification-item">
+                        <p>Your content was uploaded successfully</p>
+                        <span class="notification-time">2 hours ago</span>
                     </div>
-                    <div class="form-group">
-                        <label for="register-channel-name">Channel Name</label>
-                        <input type="text" id="register-channel-name" placeholder="Your channel name..." class="form-input">
+                    <div class="notification-item">
+                        <p>New comment on your post</p>
+                        <span class="notification-time">1 day ago</span>
                     </div>
-                    <div class="form-group">
-                        <label for="register-password">Password *</label>
-                        <input type="password" id="register-password" required placeholder="Create a strong password..." class="form-input">
-                    </div>
-                    <div class="form-group">
-                        <label for="register-confirm-password">Confirm Password *</label>
-                        <input type="password" id="register-confirm-password" required placeholder="Confirm your password..." class="form-input">
-                    </div>
-                    <div class="form-group">
-                        <label for="register-description">Channel Description</label>
-                        <textarea id="register-description" placeholder="Tell viewers about your channel..." class="form-textarea"></textarea>
-                    </div>
-                    <div class="form-row">
-                        <button type="submit" class="btn btn-primary">Create Account</button>
-                        <button type="button" id="switch-to-login" class="btn btn-secondary">Already have an account? Sign In</button>
-                    </div>
-                </form>
+                </div>
             </div>
         </div>
     </div>
@@ -932,11 +266,11 @@
                 </div>
                 <div class="form-group">
                     <label for="register-confirm-password">Confirm Password</label>
-                    <input type="password" id="register-confirm-password" class="form-input" placeholder="Confirm your password" required>
+                    <input type="password" id="register-confirm-password" required placeholder="Confirm your password..." class="form-input">
                 </div>
                 <div class="form-group">
                     <label for="register-description">Channel Description</label>
-                    <textarea id="register-description" class="form-textarea" placeholder="Tell viewers about your channel..."></textarea>
+                    <textarea id="register-description" placeholder="Tell viewers about your channel..." class="form-textarea"></textarea>
                 </div>
                 <div class="form-checkbox">
                     <input type="checkbox" id="accept-terms" required>
@@ -952,36 +286,16 @@
                 <button type="button" id="switch-to-register" class="btn-link">Sign Up</button>
             </div>
             
-            <button type="button" class="close-modal" style="position: absolute; top: 16px; right: 16px; background: transparent; border: none; color: var(--gray-light); font-size: 1.5rem; cursor: pointer;">
-                <i class="fas fa-times"></i>
+            <button type="button" class="close-modal" style="position: absolute; top: 16px; right: 16px; background: transparent; border: none; color: var(--text-secondary); font-size: 1.5rem; cursor: pointer;">
+                <span>Close</span>
             </button>
         </div>
-    </div>
-
-    <!-- User Dropdown Menu -->
-    <div id="user-dropdown" class="user-dropdown">
-        <a href="#profile" class="dropdown-item">
-            <i class="fas fa-user"></i> My Profile
-        </a>
-        <a href="#settings" class="dropdown-item">
-            <i class="fas fa-cog"></i> Settings
-        </a>
-        <a href="#library" class="dropdown-item">
-            <i class="fas fa-bookmark"></i> My Library
-        </a>
-        <a href="#history" class="dropdown-item">
-            <i class="fas fa-history"></i> Watch History
-        </a>
-        <a href="#" class="dropdown-item" id="logout-btn">
-            <i class="fas fa-sign-out-alt"></i> Sign Out
-        </a>
     </div>
 
     <!-- Toast Notifications Container -->
     <div id="toast-container"></div>
 
-    <script src="js/icon-test.js"></script>
-    <script src="js/icon-fallback.js"></script>
+    <!-- JavaScript -->
     <script src="js/auth-system.js"></script>
     <script src="js/content-interactions.js"></script>
     <script src="js/media-player.js"></script>
