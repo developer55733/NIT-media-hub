@@ -1,0 +1,141 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String   @id @default(cuid())
+  email       String   @unique
+  username    String   @unique
+  password    String   @unique
+  avatar      String?
+  channelName String?
+  description String?
+  subscribers Int      @default(0)
+  totalViews  Int      @default(0)
+  videoCount  Int      @default(0)
+  isAdmin     Boolean @default(false)
+  isActive    Boolean   @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  videos      Video[]
+  comments   Comment[]
+  likes      Like[]
+  playlists  Playlist[]
+  subscriptions Subscription[]
+}
+
+model Video {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  thumbnail   String
+  videoUrl    String
+  duration    String?
+  category    String
+  tags        String[]
+  visibility  String   @default("public") // public, private, unlisted
+  status      String   @default("published") // published, draft, processing
+  views       Int      @default(0)
+  likes       Int      @default(0)
+  dislikes    Int      @default(0)
+  comments    Int      @default(0)
+  uploadDate  DateTime @default(now())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  comments    Comment[]
+  likes       Like[]
+  playlistVideos PlaylistVideo[]
+
+  @@map("videos")
+}
+
+model Comment {
+  id        String   @id @default(cuid())
+  text      String
+  likes     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  videoId   String
+  video     Video    @relation(fields: [videoId], references: [id], onDelete: Cascade)
+
+  parentId  String?
+  parent    Comment? @relation("CommentReplies", fields: [parentId], references: [id])
+  replies   Comment[] @relation("CommentReplies")
+
+  @@map("comments")
+}
+
+model Like {
+  id     String @id @default(cuid())
+  type   String // like, dislike
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  videoId String
+  video   Video  @relation(fields: [videoId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, videoId])
+  @@map("likes")
+}
+
+model Playlist {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  isPublic    Boolean  @default(false)
+  videoCount  Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  videos PlaylistVideo[]
+
+  @@map("playlists")
+}
+
+model PlaylistVideo {
+  id         String @id @default(cuid())
+  position   Int
+
+  playlistId String
+  playlist   Playlist @relation(fields: [playlistId], references: [id], onDelete: Cascade)
+
+  videoId    String
+  video      Video    @relation(fields: [videoId], references: [id], onDelete: Cascade)
+
+  @@unique([playlistId, videoId])
+  @@map("playlist_videos")
+}
+
+model Subscription {
+  id         String   @id @default(cuid())
+  createdAt  DateTime @default(now())
+
+  userId     String
+  user       User     @relation("UserSubscriptions", fields: [userId], references: [id], onDelete: Cascade)
+
+  channelId  String
+  channel    User     @relation("ChannelSubscriptions", fields: [channelId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, channelId])
+  @@map("subscriptions")
+}

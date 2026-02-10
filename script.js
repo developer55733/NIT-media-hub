@@ -144,12 +144,16 @@ async function checkAuthStatus() {
 // Load initial data from API
 async function loadInitialData() {
     try {
+        console.log('Loading initial data from API...');
+        
         // Load videos
         const videosResponse = await api.getVideos({ limit: 20 });
         allVideos = videosResponse.videos || [];
+        console.log('Videos loaded:', allVideos.length);
         
         // Load trending videos
         const trendingResponse = await api.getTrendingVideos({ limit: 10 });
+        console.log('Trending videos loaded:', trendingResponse.videos?.length || 0);
         
         // Update UI with loaded data
         displayHomeVideos();
@@ -157,6 +161,8 @@ async function loadInitialData() {
         
     } catch (error) {
         console.error('Error loading initial data:', error);
+        console.log('Falling back to demo mode...');
+        
         // Fallback to demo mode if API fails
         loadDemoData();
     }
