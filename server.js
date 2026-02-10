@@ -164,7 +164,6 @@ process.on('SIGTERM', async () => {
 const startServer = async () => {
   try {
     console.log('🔗 Attempting to connect to database...');
-    console.log('🔗 DATABASE_URL:', DATABASE_URL);
     
     // Test database connection with detailed logging
     await prisma.$connect();
