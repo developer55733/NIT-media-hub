@@ -90,6 +90,19 @@ body {
     font-weight: 500;
     font-size: 0.9rem;
     position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.nav-link i {
+    font-size: 1rem;
+    width: 20px;
+    text-align: center;
+}
+
+.nav-link span {
+    font-weight: 500;
 }
 
 .nav-link:hover {
@@ -114,6 +127,10 @@ body {
     height: 3px;
     background: var(--primary-color);
     border-radius: 50%;
+}
+
+.nav-link.active i {
+    color: var(--primary-color);
 }
 
 .search-bar {
@@ -529,6 +546,24 @@ body {
         width: 100%;
         justify-content: center;
         margin-top: 10px;
+        gap: 6px;
+    }
+    
+    .nav-link {
+        padding: 8px 12px;
+        font-size: 0.8rem;
+        flex-direction: column;
+        gap: 4px;
+        min-width: 60px;
+    }
+    
+    .nav-link i {
+        font-size: 1.1rem;
+        width: auto;
+    }
+    
+    .nav-link span {
+        font-size: 0.7rem;
     }
     
     .search-bar {
@@ -569,17 +604,29 @@ body {
         padding: 0 15px;
     }
     
+    .nav {
+        gap: 4px;
+    }
+    
+    .nav-link {
+        padding: 6px 8px;
+        min-width: 50px;
+    }
+    
+    .nav-link i {
+        font-size: 1rem;
+    }
+    
+    .nav-link span {
+        display: none;
+    }
+    
     .video-grid {
         grid-template-columns: 1fr;
     }
     
     .category-grid {
         grid-template-columns: repeat(2, 1fr);
-    }
-    
-    .nav-link {
-        padding: 8px 12px;
-        font-size: 0.85rem;
     }
 }
 
