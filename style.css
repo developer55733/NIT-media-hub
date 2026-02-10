@@ -1597,9 +1597,136 @@ i[class*="fa-"] {
     color: var(--gray-medium);
 }
 
-.no-content h3 {
+/* Interactive Elements */
+.video-card:hover,
+.song-card:hover,
+.game-card:hover,
+.course-card:hover,
+.post-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+}
+
+.video-play-overlay:hover,
+.song-play-overlay:hover {
+    background: rgba(255, 0, 0, 0.9);
+    transform: scale(1.1);
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+.tab-btn:hover {
+    background: var(--gray-medium);
     color: var(--light-color);
-    margin-bottom: 8px;
+}
+
+.tab-btn.active {
+    background: var(--accent-color);
+    color: var(--light-color);
+}
+
+/* Modal Styles */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    backdrop-filter: blur(5px);
+}
+
+.modal-content {
+    background: var(--gray-dark);
+    border-radius: 12px;
+    padding: 24px;
+    max-width: 90vw;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    border: 1px solid #303030;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #303030;
+}
+
+.modal-header h3 {
+    color: var(--light-color);
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+.close-btn {
+    background: transparent;
+    border: none;
+    color: var(--gray-light);
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 6px;
+    transition: var(--transition);
+}
+
+.close-btn:hover {
+    color: var(--light-color);
+    background: var(--gray-medium);
+}
+
+/* Interactive Buttons */
+.btn.liked {
+    background: var(--primary-color) !important;
+    color: var(--light-color) !important;
+}
+
+.subscribe-btn.subscribed {
+    background: var(--gray-medium) !important;
+    color: var(--gray-light) !important;
+}
+
+.post-action.liked {
+    color: var(--primary-color) !important;
+}
+
+/* Loading States */
+.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    color: var(--gray-light);
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid var(--gray-medium);
+    border-top: 4px solid var(--primary-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 
 .header .container {
