@@ -648,6 +648,20 @@ class DemoContentGenerator {
                     <div class="song-stats">
                         <span class="song-likes"><i class="fas fa-heart"></i> ${this.formatViews(song.likes)}</span>
                     </div>
+                    <div class="song-actions">
+                        <button class="song-action like-btn" data-content-id="${song.id}">
+                            <i class="far fa-heart"></i>
+                            <span class="like-count">${song.likes}</span>
+                        </button>
+                        <button class="song-action comment-btn" data-content-id="${song.id}">
+                            <i class="far fa-comment"></i>
+                            <span class="comment-count">${song.comments || 0}</span>
+                        </button>
+                        <button class="song-action share-btn" data-content-id="${song.id}">
+                            <i class="far fa-share"></i>
+                            Share
+                        </button>
+                    </div>
                 </div>
             </div>
         `;
@@ -674,6 +688,20 @@ class DemoContentGenerator {
                     <div class="game-stats">
                         <span class="game-players">${this.formatViews(game.players)} players</span>
                         <span class="game-price">$${game.price}</span>
+                    </div>
+                    <div class="game-actions">
+                        <button class="game-action like-btn" data-content-id="${game.id}">
+                            <i class="far fa-heart"></i>
+                            <span class="like-count">${game.likes || 0}</span>
+                        </button>
+                        <button class="game-action comment-btn" data-content-id="${game.id}">
+                            <i class="far fa-comment"></i>
+                            <span class="comment-count">${game.comments || 0}</span>
+                        </button>
+                        <button class="game-action share-btn" data-content-id="${game.id}">
+                            <i class="far fa-share"></i>
+                            Share
+                        </button>
                     </div>
                     <div class="game-footer">
                         <span class="game-developer">${game.developer}</span>
@@ -711,6 +739,20 @@ class DemoContentGenerator {
                     <div class="course-tags">
                         ${course.tags.slice(0, 3).map(tag => `<span class="course-tag">${tag}</span>`).join('')}
                     </div>
+                    <div class="course-actions">
+                        <button class="course-action like-btn" data-content-id="${course.id}">
+                            <i class="far fa-heart"></i>
+                            <span class="like-count">${course.likes || 0}</span>
+                        </button>
+                        <button class="course-action comment-btn" data-content-id="${course.id}">
+                            <i class="far fa-comment"></i>
+                            <span class="comment-count">${course.comments || 0}</span>
+                        </button>
+                        <button class="course-action share-btn" data-content-id="${course.id}">
+                            <i class="far fa-share"></i>
+                            Share
+                        </button>
+                    </div>
                     <div class="course-footer">
                         <span class="course-price">$${course.price}</span>
                         <button class="btn btn-primary enroll-btn">Enroll Now</button>
@@ -734,14 +776,17 @@ class DemoContentGenerator {
                     <p>${post.content}</p>
                 </div>
                 <div class="post-actions">
-                    <button class="post-action like-btn">
-                        <i class="fas fa-heart"></i> ${post.likes}
+                    <button class="post-action like-btn" data-content-id="${post.id}">
+                        <i class="far fa-heart"></i>
+                        <span class="like-count">${post.likes}</span>
                     </button>
-                    <button class="post-action comment-btn">
-                        <i class="fas fa-comment"></i> ${post.comments}
+                    <button class="post-action comment-btn" data-content-id="${post.id}">
+                        <i class="far fa-comment"></i>
+                        <span class="comment-count">${post.comments}</span>
                     </button>
-                    <button class="post-action share-btn">
-                        <i class="fas fa-share"></i> ${post.shares}
+                    <button class="post-action share-btn" data-content-id="${post.id}">
+                        <i class="far fa-share"></i>
+                        <span class="share-count">${post.shares}</span>
                     </button>
                 </div>
             </div>

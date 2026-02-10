@@ -848,6 +848,79 @@ header {
     color: var(--primary-dark);
 }
 
+/* Content Actions */
+.video-actions, .song-actions, .game-actions, .course-actions, .post-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border-color);
+}
+
+.video-action, .song-action, .game-action, .course-action, .post-action {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 12px;
+    background: transparent;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.video-action:hover, .song-action:hover, .game-action:hover, .course-action:hover, .post-action:hover {
+    background: var(--light-bg);
+    color: var(--text-primary);
+    border-color: var(--primary);
+}
+
+.video-action.liked, .song-action.liked, .game-action.liked, .course-action.liked, .post-action.liked {
+    color: var(--accent);
+    border-color: var(--accent);
+    background: rgba(233, 66, 53, 0.1);
+}
+
+.video-action.commented, .song-action.commented, .game-action.commented, .course-action.commented, .post-action.commented {
+    color: var(--primary);
+    border-color: var(--primary);
+    background: rgba(26, 115, 232, 0.1);
+}
+
+.video-action.shared, .song-action.shared, .game-action.shared, .course-action.shared, .post-action.shared {
+    color: var(--primary);
+    border-color: var(--primary);
+    background: rgba(26, 115, 232, 0.1);
+}
+
+.video-action i, .song-action i, .game-action i, .course-action i, .post-action i {
+    font-size: 0.9rem;
+}
+
+.video-action span, .song-action span, .game-action span, .course-action span, .post-action span {
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+/* Responsive Actions */
+@media (max-width: 768px) {
+    .video-actions, .song-actions, .game-actions, .course-actions, .post-actions {
+        flex-wrap: wrap;
+        gap: 6px;
+    }
+    
+    .video-action, .song-action, .game-action, .course-action, .post-action {
+        padding: 4px 8px;
+        font-size: 0.8rem;
+    }
+    
+    .video-action span, .song-action span, .game-action span, .course-action span, .post-action span {
+        display: none;
+    }
+}
+
 /* Notifications */
 .notifications-list {
     max-height: 400px;
