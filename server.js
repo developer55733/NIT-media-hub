@@ -21,7 +21,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Initialize Prisma Client with fallback
-const DATABASE_URL = process.env.DATABASE_URL || 'mysql://root:rFGqmfUlVUcBHwqXviwmqhRazfdNjAXX@localhost:3306/railway';
+const DATABASE_URL = process.env.DATABASE_URL || 'mysql://root:rFGqmfUlVUcBHwqXviwmqhRazfdNjAXX@mysql.railway.internal:3306/railway';
 const prisma = new PrismaClient({
   datasources: {
     db: {
@@ -29,6 +29,9 @@ const prisma = new PrismaClient({
     }
   }
 });
+
+// Log the actual DATABASE_URL being used
+console.log('🔗 DATABASE_URL:', DATABASE_URL);
 
 // Security middleware
 app.use(helmet({
