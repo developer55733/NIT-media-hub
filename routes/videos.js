@@ -11,6 +11,7 @@ const {
 } = require('../controllers/videoController');
 const { authenticateToken, optionalAuth } = require('../middleware/auth');
 const { videoUpload, thumbnailUpload } = require('../middleware/upload');
+const prisma = require('../config/database');
 
 // Public routes
 router.get('/', optionalAuth, getVideos);
@@ -40,9 +41,6 @@ router.post('/upload', authenticateToken, [
     if (!title || !category) {
       return res.status(400).json({ error: 'Title and category are required' });
     }
-
-    const { PrismaClient } = require('@prisma/client');
-    const prisma = new PrismaClient();
 
     const videoData = {
       title,

@@ -8,6 +8,7 @@ const {
 } = require('../controllers/authController');
 const { authenticateToken } = require('../middleware/auth');
 const { avatarUpload } = require('../middleware/upload');
+const prisma = require('../config/database');
 
 // Public routes
 router.post('/register', register);
@@ -21,9 +22,6 @@ router.put('/avatar', authenticateToken, avatarUpload.single('avatar'), async (r
     if (!req.file) {
       return res.status(400).json({ error: 'No file uploaded' });
     }
-
-    const { PrismaClient } = require('@prisma/client');
-    const prisma = new PrismaClient();
 
     // Update user avatar in database
     const user = await prisma.user.update({
