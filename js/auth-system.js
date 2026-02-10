@@ -264,11 +264,6 @@ class AuthSystem {
         this.currentUser = null;
         this.isLoggedIn = false;
 
-        // Clear content interactions
-        if (window.contentInteractions) {
-            window.contentInteractions.clearUserInteractions();
-        }
-
         // Clear session
         localStorage.removeItem('mediaHubSession');
 

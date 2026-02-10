@@ -147,6 +147,56 @@
                     </div>
                 </div>
             </section>
+
+            <!-- User Content Section - Example of how user posts look -->
+            <section id="user-content" class="content-section">
+                <div class="container">
+                    <h2>User Content Examples</h2>
+                    <div id="user-content-grid" class="content-grid">
+                        <!-- User content examples will be loaded here -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Playlist Section -->
+            <section id="playlists" class="content-section">
+                <div class="container">
+                    <h2>My Playlists</h2>
+                    <div class="playlist-controls">
+                        <button id="create-playlist-btn" class="btn btn-primary">Create New Playlist</button>
+                    </div>
+                    <div id="playlists-grid" class="playlist-grid">
+                        <!-- Playlists will be loaded here -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Saved Interactions Section -->
+            <section id="saved-interactions" class="content-section">
+                <div class="container">
+                    <h2>Saved Interactions</h2>
+                    <div class="interaction-tabs">
+                        <button class="interaction-tab active" data-tab="liked">Liked Content</button>
+                        <button class="interaction-tab" data-tab="commented">Commented Content</button>
+                        <button class="interaction-tab" data-tab="shared">Shared Content</button>
+                    </div>
+                    <div id="liked-content" class="interaction-content active">
+                        <div class="content-grid">
+                            <!-- Liked content will be loaded here -->
+                        </div>
+                    </div>
+                    <div id="commented-content" class="interaction-content">
+                        <div class="content-grid">
+                            <!-- Commented content will be loaded here -->
+                        </div>
+                    </div>
+                    <div id="shared-content" class="interaction-content">
+                        <div class="content-grid">
+                            <!-- Shared content will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+            </section>
         </main>
     </div>
 
@@ -321,6 +371,46 @@
         </div>
     </div>
 
+    <!-- Playlist Creation Modal -->
+    <div id="playlist-modal" class="modal-overlay">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Create New Playlist</h3>
+                <button class="modal-close" id="close-playlist-modal">
+                    <span>Close</span>
+                </button>
+            </div>
+            <form id="playlist-form" class="modal-form">
+                <div class="form-group">
+                    <label for="playlist-name">Playlist Name</label>
+                    <input type="text" id="playlist-name" class="form-input" placeholder="Enter playlist name..." required maxlength="50">
+                    <small class="form-help">Give your playlist a memorable name</small>
+                </div>
+                <div class="form-group">
+                    <label for="playlist-description">Description</label>
+                    <textarea id="playlist-description" class="form-textarea" placeholder="Describe your playlist..." maxlength="200"></textarea>
+                    <small class="form-help">Optional: Tell others what this playlist is about</small>
+                </div>
+                <div class="form-group">
+                    <label for="playlist-privacy">Privacy</label>
+                    <select id="playlist-privacy" class="form-input">
+                        <option value="public">Public - Anyone can view</option>
+                        <option value="unlisted">Unlisted - Only people with link can view</option>
+                        <option value="private">Private - Only you can view</option>
+                    </select>
+                </div>
+                <div class="form-checkbox">
+                    <input type="checkbox" id="playlist-collaborative">
+                    <label for="playlist-collaborative">Allow others to add content</label>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Create Playlist</button>
+                    <button type="button" id="cancel-playlist" class="btn btn-secondary">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!-- Toast Notifications Container -->
     <div id="toast-container"></div>
 
@@ -332,6 +422,6 @@
     <script src="js/app-init.js"></script>
     <script src="js/uni-hub-main.js"></script>
     <script src="js/enhanced-functionality.js"></script>
-    <script src="test-initialization.js"></script>
+    <script src="js/playlist-interactions.js"></script>
 </body>
 </html>
