@@ -74,6 +74,28 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 app.use(express.static(path.join(__dirname)));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
+// Health check endpoint
+app.get('/health', async (req, res) => {
+  try {
+    // Test database connection
+    await prisma.$queryRaw`SELECT 1 as test`;
+    
+    res.status(200).json({
+      status: 'healthy',
+      timestamp: new Date().toISOString(),
+      database: 'connected',
+      mysql: 'operational'
+    });
+  } catch (error) {
+    res.status(503).json({
+      status: 'unhealthy',
+      timestamp: new Date().toISOString(),
+      database: 'disconnected',
+      error: error.message
+    });
+  }
+});
+
 // API Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/videos', videoRoutes);
@@ -153,17 +175,34 @@ process.on('SIGTERM', async () => {
 // Start server
 const startServer = async () => {
   try {
-    // Test database connection
+    console.log('🔗 Attempting to connect to database...');
+    console.log('🔗 DATABASE_URL:', DATABASE_URL);
+    
+    // Test database connection with detailed logging
     await prisma.$connect();
     console.log('✅ Database connected successfully');
+    
+    // Test database query to verify connection
+    try {
+      const result = await prisma.$queryRaw`SELECT 1 as test`;
+      console.log('✅ Database query test successful:', result);
+    } catch (queryError) {
+      console.error('❌ Database query test failed:', queryError);
+    }
     
     app.listen(PORT, () => {
       console.log(`🚀 Media Hub server running on port ${PORT}`);
       console.log(`📱 Environment: ${process.env.NODE_ENV || 'development'}`);
       console.log(`🌐 URL: http://localhost:${PORT}`);
+      console.log(`🗄️ Database: MySQL connected`);
     });
   } catch (error) {
     console.error('❌ Failed to start server:', error);
+    console.error('❌ Error details:', {
+      message: error.message,
+      code: error.code,
+      meta: error.meta
+    });
     process.exit(1);
   }
 };
