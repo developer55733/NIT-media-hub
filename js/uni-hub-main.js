@@ -131,8 +131,24 @@ class UniHubApp {
         if (userAvatar) {
             userAvatar.addEventListener('click', () => {
                 if (window.authSystem && !window.authSystem.isAuthenticated()) {
-                    window.authSystem.showAuthModal();
+                    this.openAuthModal();
                 }
+            });
+        }
+
+        // Auth form switching
+        const switchToRegister = document.getElementById('switch-to-register');
+        const switchToLogin = document.getElementById('switch-to-login');
+
+        if (switchToRegister) {
+            switchToRegister.addEventListener('click', () => {
+                this.showRegisterForm();
+            });
+        }
+
+        if (switchToLogin) {
+            switchToLogin.addEventListener('click', () => {
+                this.showLoginForm();
             });
         }
     }
@@ -466,6 +482,42 @@ class UniHubApp {
     closeModal(modal) {
         modal.classList.remove('active');
         document.body.style.overflow = 'auto';
+    }
+
+    openAuthModal() {
+        const authModal = document.getElementById('auth-modal');
+        if (authModal) {
+            this.openModal(authModal);
+            this.showLoginForm();
+        }
+    }
+
+    showLoginForm() {
+        const loginForm = document.getElementById('login-form');
+        const registerForm = document.getElementById('register-form');
+        const modalTitle = document.getElementById('auth-modal-title');
+        const switchText = document.getElementById('auth-switch-text');
+        const switchBtn = document.getElementById('switch-to-register');
+
+        if (loginForm) loginForm.classList.add('active');
+        if (registerForm) registerForm.classList.remove('active');
+        if (modalTitle) modalTitle.textContent = 'Sign In';
+        if (switchText) switchText.textContent = "Don't have an account?";
+        if (switchBtn) switchBtn.style.display = 'block';
+    }
+
+    showRegisterForm() {
+        const loginForm = document.getElementById('login-form');
+        const registerForm = document.getElementById('register-form');
+        const modalTitle = document.getElementById('auth-modal-title');
+        const switchText = document.getElementById('auth-switch-text');
+        const switchBtn = document.getElementById('switch-to-register');
+
+        if (loginForm) loginForm.classList.remove('active');
+        if (registerForm) registerForm.classList.add('active');
+        if (modalTitle) modalTitle.textContent = 'Create Account';
+        if (switchText) switchText.textContent = 'Already have an account?';
+        if (switchBtn) switchBtn.style.display = 'none';
     }
 
     // Theme functions
