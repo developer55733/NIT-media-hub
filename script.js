@@ -293,12 +293,52 @@ const elements = {
 };
 
 // Initialize Application
-async function init() {
-    setupEventListeners();
-    await checkAuthStatus();
-    await loadInitialData();
-    showSection('home');
-    updateUI();
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('Media Hub Application Initializing...');
+    
+    // Initialize all components
+    try {
+        // Setup event listeners
+        setupEventListeners();
+        
+        // Load initial content
+        loadInitialData();
+        
+        // Load content for all sections
+        loadAllSectionContent();
+        
+        // Initialize content loader
+        if (typeof contentLoader !== 'undefined') {
+            console.log('Content loader initialized');
+        }
+        
+        // Initialize other modules
+        console.log('Live streaming:', typeof liveStreaming !== 'undefined');
+        console.log('Playlist manager:', typeof playlistManager !== 'undefined');
+        console.log('Notifications:', typeof notificationManager !== 'undefined');
+        console.log('Advanced search:', typeof advancedSearch !== 'undefined');
+        console.log('Social features:', typeof socialFeatures !== 'undefined');
+        
+        showToast('Media Hub loaded successfully!', 'success');
+        
+    } catch (error) {
+        console.error('Initialization error:', error);
+        showToast('Error loading application', 'error');
+    }
+});
+
+// Load all section content
+function loadAllSectionContent() {
+    // Load content for each section
+    setTimeout(() => {
+        if (typeof contentLoader !== 'undefined') {
+            contentLoader.displayContent('videos', 'videos-container');
+            contentLoader.displayContent('songs', 'songs-container');
+            contentLoader.displayContent('news', 'news-container');
+            contentLoader.displayContent('profiles', 'profiles-container');
+            contentLoader.displayContent('courses', 'courses-container');
+        }
+    }, 1000);
 }
 
 // Check authentication status
