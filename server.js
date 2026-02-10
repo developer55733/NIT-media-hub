@@ -20,8 +20,15 @@ const searchRoutes = require('./routes/search');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Initialize Prisma Client
-const prisma = new PrismaClient();
+// Initialize Prisma Client with fallback
+const DATABASE_URL = process.env.DATABASE_URL || 'mysql://root:rFGqmfUlVUcBHwqXviwmqhRazfdNjAXX@localhost:3306/railway';
+const prisma = new PrismaClient({
+  datasources: {
+    db: {
+      url: DATABASE_URL
+    }
+  }
+});
 
 // Security middleware
 app.use(helmet({
