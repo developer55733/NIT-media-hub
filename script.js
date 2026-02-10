@@ -8,6 +8,91 @@ let allUsers = [];
 let currentVideo = null;
 let isAdmin = false;
 
+// Toast Notification System
+function showToast(message, type = 'info') {
+    const toastContainer = document.getElementById('toast-container');
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    toast.textContent = message;
+    
+    toastContainer.appendChild(toast);
+    
+    // Trigger animation
+    setTimeout(() => toast.classList.add('show'), 100);
+    
+    // Remove after 3 seconds
+    setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => toast.remove(), 300);
+    }, 3000);
+}
+
+// Loading State Management
+function showLoading(elementId) {
+    const element = document.getElementById(elementId);
+    if (element) {
+        element.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
+    }
+}
+
+function hideLoading(elementId, content = '') {
+    const element = document.getElementById(elementId);
+    if (element) {
+        element.innerHTML = content;
+    }
+}
+
+// Enhanced Video Card Creation
+function createVideoCard(video) {
+    const card = document.createElement('div');
+    card.className = 'video-card';
+    card.innerHTML = `
+        <div class="video-thumbnail">
+            <img src="${video.thumbnail || `https://picsum.photos/seed/${video.id}/320/180.jpg`}" alt="${video.title}" loading="lazy">
+            <span class="video-duration">${video.duration || '10:00'}</span>
+            <div class="video-play-overlay">
+                <i class="fas fa-play"></i>
+            </div>
+        </div>
+        <div class="video-info">
+            <h3 class="video-title">${video.title}</h3>
+            <div class="video-meta">
+                <span class="video-views">
+                    <i class="fas fa-eye"></i> ${formatViews(video.views || 0)}
+                </span>
+                <span class="video-date">${formatDate(video.createdAt)}</span>
+            </div>
+        </div>
+    `;
+    
+    card.addEventListener('click', () => playVideo(video));
+    return card;
+}
+
+// Format Views Helper
+function formatViews(views) {
+    if (views >= 1000000) {
+        return (views / 1000000).toFixed(1) + 'M';
+    } else if (views >= 1000) {
+        return (views / 1000).toFixed(1) + 'K';
+    }
+    return views.toString();
+}
+
+// Format Date Helper
+function formatDate(dateString) {
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffTime = Math.abs(now - date);
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    
+    if (diffDays === 1) return '1 day ago';
+    if (diffDays < 7) return `${diffDays} days ago`;
+    if (diffDays < 30) return `${Math.floor(diffDays / 7)} weeks ago`;
+    if (diffDays < 365) return `${Math.floor(diffDays / 30)} months ago`;
+    return `${Math.floor(diffDays / 365)} years ago`;
+}
+
 // DOM Elements
 const elements = {
     // Navigation
@@ -146,6 +231,9 @@ async function loadInitialData() {
     try {
         console.log('Loading initial data from API...');
         
+        // Show loading state
+        showLoading('home-videos');
+        
         // Load videos
         const videosResponse = await api.getVideos({ limit: 20 });
         allVideos = videosResponse.videos || [];
@@ -161,6 +249,7 @@ async function loadInitialData() {
         
     } catch (error) {
         console.error('Error loading initial data:', error);
+        showToast('Failed to load videos. Showing demo content.', 'warning');
         console.log('Falling back to demo mode...');
         
         // Fallback to demo mode if API fails
@@ -446,38 +535,36 @@ function displayTrendingVideos(videos) {
 function displayVideoGrid(container, videos) {
     if (!container) return;
     
-    container.innerHTML = videos.map(video => `
-        <div class="video-card" data-video-id="${video.id}">
-            <div class="video-thumbnail">
-                <img src="${video.thumbnail}" alt="${video.title}">
-                <div class="video-duration">${video.duration || '00:00'}</div>
-                <div class="play-overlay">
-                    <i class="fas fa-play"></i>
-                </div>
-            </div>
-            <div class="video-info">
-                <h3 class="video-title">${video.title}</h3>
-                <div class="video-meta">
-                    <div class="channel-info">
-                        <img src="${video.user.avatar}" alt="${video.user.channelName}" class="channel-avatar">
-                        <span class="channel-name">${video.user.channelName}</span>
-                    </div>
-                    <div class="video-stats">
-                        <span class="views">${formatNumber(video.views)} views</span>
-                        <span class="upload-date">${formatDate(video.uploadDate)}</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    `).join('');
+    // Hide loading spinner
+    hideLoading(container.id);
     
-    // Add click listeners to video cards
-    container.querySelectorAll('.video-card').forEach(card => {
-        card.addEventListener('click', () => {
-            const videoId = card.getAttribute('data-video-id');
-            openVideoModal(videoId);
-        });
-    });
+    // Create video cards using the enhanced function
+    const videoCards = videos.map(video => createVideoCard(video));
+    
+    // Clear container and append new cards
+    container.innerHTML = '';
+    videoCards.forEach(card => container.appendChild(card));
+    
+    // Show success message if videos loaded
+    if (videos.length > 0) {
+        showToast(`Loaded ${videos.length} videos`, 'success');
+    }
+}
+
+// Play Video Function
+function playVideo(video) {
+    currentVideo = video;
+    
+    // Update featured video
+    if (elements.featuredVideoPlayer) {
+        displayFeaturedVideo(video);
+    }
+    
+    // Show video player modal or navigate to video page
+    showToast(`Now playing: ${video.title}`, 'info');
+    
+    // Scroll to featured video
+    elements.featuredVideoPlayer?.scrollIntoView({ behavior: 'smooth' });
 }
 
 async function openVideoModal(videoId) {
