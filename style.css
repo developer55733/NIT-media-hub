@@ -535,6 +535,54 @@ body {
     border-color: var(--accent-color);
 }
 
+/* Icon Visibility Fixes */
+.fas, .far, .fab, .fa-solid, .fa-regular, .fa-brands {
+    display: inline-block !important;
+    font-style: normal !important;
+    font-variant: normal !important;
+    text-rendering: auto !important;
+    line-height: 1 !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+/* Header Icons */
+.header .fas,
+.header .far,
+.header .fab {
+    color: var(--light-color) !important;
+    font-size: 1.2rem !important;
+}
+
+/* Sidebar Icons */
+.sidebar .fas,
+.sidebar .far,
+.sidebar .fab {
+    color: var(--light-color) !important;
+    font-size: 1.1rem !important;
+    width: 20px !important;
+    text-align: center !important;
+}
+
+/* Button Icons */
+.btn .fas,
+.btn .far,
+.btn .fab {
+    color: inherit !important;
+}
+
+/* Logo Icon */
+.logo .fas {
+    color: var(--primary-color) !important;
+    font-size: 2rem !important;
+}
+
+/* Ensure all icon elements are visible */
+i[class*="fa-"] {
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
 /* Playlist Styles */
 .playlist-grid {
     display: grid;
