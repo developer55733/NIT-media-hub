@@ -5,7 +5,9 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
+    "start:mysql": "node server-mysql.js",
     "dev": "nodemon server.js",
+    "dev:mysql": "nodemon server-mysql.js",
     "build": "echo 'Build completed'",
     "test": "echo 'Run tests here'",
     "setup": "mkdir -p uploads && echo 'Uploads directory created'",
@@ -13,7 +15,10 @@
     "db:push": "prisma db push",
     "db:migrate": "prisma migrate dev",
     "db:studio": "prisma studio",
-    "db:seed": "node prisma/seed.js"
+    "db:seed": "node prisma/seed.js",
+    "mysql:init": "mysql -u root -p < database/schema.sql",
+    "mysql:seed": "mysql -u root -p media_hub < database/seed.sql",
+    "mysql:console": "mysql -u root -p media_hub"
   },
   "keywords": [
     "media-platform",
@@ -41,6 +46,7 @@
     "pg": "^8.11.3",
     "@prisma/client": "^5.7.1",
     "prisma": "^5.7.1",
+    "mysql2": "^3.6.5",
     "bcryptjs": "^2.4.3",
     "jsonwebtoken": "^9.0.2",
     "joi": "^17.11.0",
