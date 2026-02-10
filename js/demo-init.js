@@ -163,45 +163,50 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Load demo content
     function loadDemoContent() {
-        console.log('🎯 Loading Demo Content...');
+        console.log('🎯 Loading Rich Demo Content...');
 
-        // Load videos
-        const videosContainer = document.getElementById('videos-container');
-        if (videosContainer) {
-            videosContainer.innerHTML = demoContent.videos.map(video => createVideoCard(video)).join('');
-            console.log('✅ Videos loaded');
-        }
-
-        // Load songs
-        const songsContainer = document.getElementById('songs-container');
-        if (songsContainer) {
-            songsContainer.innerHTML = demoContent.songs.map(song => createSongCard(song)).join('');
-            console.log('✅ Songs loaded');
-        }
-
-        // Load news
-        const newsContainer = document.getElementById('news-container');
-        if (newsContainer) {
-            newsContainer.innerHTML = demoContent.news.map(news => createNewsCard(news)).join('');
-            console.log('✅ News loaded');
-        }
-
-        // Load profiles
-        const profilesContainer = document.getElementById('profiles-container');
-        if (profilesContainer) {
-            profilesContainer.innerHTML = demoContent.profiles.map(profile => createProfileCard(profile)).join('');
-            console.log('✅ Profiles loaded');
-        }
-
-        // Load courses
-        const coursesContainer = document.getElementById('courses-container');
-        if (coursesContainer) {
-            coursesContainer.innerHTML = demoContent.courses.map(course => createCourseCard(course)).join('');
-            console.log('✅ Courses loaded');
+        // Use rich demo content if available, otherwise fallback
+        if (typeof demoContent !== 'undefined') {
+            console.log('✅ Using rich demo content generator');
+            
+            // Load all content types
+            demoContent.displayVideos('videos-container');
+            demoContent.displaySongs('songs-container');
+            demoContent.displayGames('games-container');
+            demoContent.displayCourses('courses-container');
+            demoContent.displayPosts('posts-container');
+            
+            console.log('✅ All rich content loaded');
+        } else {
+            console.log('⚠️ Using fallback demo content');
+            // Fallback to simple content
+            loadFallbackContent();
         }
 
         // Setup basic navigation
         setupBasicNavigation();
+    }
+
+    // Fallback content loading
+    function loadFallbackContent() {
+        const simpleContent = {
+            videos: [
+                {
+                    id: 'demo1',
+                    title: 'Demo Video 1 - Web Development',
+                    thumbnail: 'https://picsum.photos/seed/demo1/320/180.jpg',
+                    duration: '10:30',
+                    views: 15000,
+                    channel: 'Demo Channel',
+                    uploadDate: '2024-01-15'
+                }
+            ]
+        };
+
+        const videosContainer = document.getElementById('videos-container');
+        if (videosContainer) {
+            videosContainer.innerHTML = simpleContent.videos.map(video => createVideoCard(video)).join('');
+        }
     }
 
     // Basic navigation
