@@ -307,4 +307,5 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **Media Hub** - Your complete YouTube-like platform for content sharing and discovery! 🎥✨
 #   m e d i a - h u b  
+ #   N I T - m e d i a - h u b  
  
