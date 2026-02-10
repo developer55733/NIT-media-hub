@@ -1,4 +1,5 @@
 const prisma = require('../config/database');
+const Joi = require('joi');
 
 // Validation schemas
 const createCommentSchema = Joi.object({

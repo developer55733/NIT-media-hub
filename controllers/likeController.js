@@ -1,4 +1,5 @@
 const prisma = require('../config/database');
+const Joi = require('joi');
 
 // Validation schema
 const toggleLikeSchema = Joi.object({
