@@ -43,7 +43,7 @@ model Video {
   videoUrl    String
   duration    String?
   category    String
-  tags        String[]
+  tags        String   // Changed from String[] to String for MySQL compatibility
   visibility  String   @default("public") // public, private, unlisted
   status      String   @default("published") // published, draft, processing
   views       Int      @default(0)
