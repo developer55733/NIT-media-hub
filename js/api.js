@@ -2,7 +2,17 @@
 class ApiService {
   constructor() {
     this.baseURL = '/api';
-    this.token = localStorage.getItem('token');
+    this.token = this.getToken();
+  }
+
+  // Get token from session storage or memory
+  getToken() {
+    // Try session storage first (more secure than localStorage)
+    if (typeof sessionStorage !== 'undefined') {
+      return sessionStorage.getItem('token');
+    }
+    // Fallback to memory (for testing)
+    return this.token || null;
   }
 
   // Helper method to make API requests
@@ -40,9 +50,15 @@ class ApiService {
   setToken(token) {
     this.token = token;
     if (token) {
-      localStorage.setItem('token', token);
+      // Use sessionStorage instead of localStorage for better security
+      if (typeof sessionStorage !== 'undefined') {
+        sessionStorage.setItem('token', token);
+      }
     } else {
-      localStorage.removeItem('token');
+      // Clear from sessionStorage
+      if (typeof sessionStorage !== 'undefined') {
+        sessionStorage.removeItem('token');
+      }
     }
   }
 

@@ -97,8 +97,8 @@ const uploadAvatar = multer({
   }
 });
 
-// Fallback to local storage if Cloudinary is not configured
-const createLocalStorage = (folder, allowedTypes, maxSize) => {
+// Fallback to server file storage if Cloudinary is not configured
+const createServerStorage = (folder, allowedTypes, maxSize) => {
   const path = require('path');
   const fs = require('fs');
 
@@ -134,7 +134,7 @@ const createLocalStorage = (folder, allowedTypes, maxSize) => {
   });
 };
 
-// Use local storage if Cloudinary credentials are not provided
+// Use server file storage if Cloudinary credentials are not provided
 let videoUpload, thumbnailUpload, avatarUpload;
 
 if (process.env.CLOUDINARY_CLOUD_NAME && process.env.CLOUDINARY_API_KEY && process.env.CLOUDINARY_API_SECRET) {
@@ -142,9 +142,9 @@ if (process.env.CLOUDINARY_CLOUD_NAME && process.env.CLOUDINARY_API_KEY && proce
   thumbnailUpload = uploadThumbnail;
   avatarUpload = uploadAvatar;
 } else {
-  videoUpload = createLocalStorage('videos', /mp4|avi|mov|wmv|flv|webm/, 100 * 1024 * 1024);
-  thumbnailUpload = createLocalStorage('thumbnails', /jpeg|jpg|png|gif/, 5 * 1024 * 1024);
-  avatarUpload = createLocalStorage('avatars', /jpeg|jpg|png|gif/, 2 * 1024 * 1024);
+  videoUpload = createServerStorage('videos', /mp4|avi|mov|wmv|flv|webm/, 100 * 1024 * 1024);
+  thumbnailUpload = createServerStorage('thumbnails', /jpeg|jpg|png|gif/, 5 * 1024 * 1024);
+  avatarUpload = createServerStorage('avatars', /jpeg|jpg|png|gif/, 2 * 1024 * 1024);
 }
 
 module.exports = {
