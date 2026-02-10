@@ -11,5 +11,5 @@ restartPolicyMaxRetries = 10
 NODE_ENV = "production"
 PORT = "3000"
 
-# MySQL Database Configuration - Will be set by Railway service
-DATABASE_URL = "mysql://root:${MYSQL_ROOT_PASSWORD}@${MYSQL_HOST}:3306/${MYSQL_DATABASE}"
+# MySQL Database Configuration - Set these in Railway dashboard
+DATABASE_URL = "mysql://root:rFGqmfUlVUcBHwqXviwmqhRazfdNjAXX@localhost:3306/railway"
