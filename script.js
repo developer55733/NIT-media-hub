@@ -42,7 +42,7 @@ function hideLoading(elementId, content = '') {
     }
 }
 
-// Enhanced Video Card Creation
+// Enhanced Video Card Creation (YouTube-style)
 function createVideoCard(video) {
     const card = document.createElement('div');
     card.className = 'video-card';
@@ -55,18 +55,95 @@ function createVideoCard(video) {
             </div>
         </div>
         <div class="video-info">
-            <h3 class="video-title">${video.title}</h3>
-            <div class="video-meta">
-                <span class="video-views">
-                    <i class="fas fa-eye"></i> ${formatViews(video.views || 0)}
-                </span>
-                <span class="video-date">${formatDate(video.createdAt)}</span>
+            <img src="${video.user?.avatar || 'https://picsum.photos/seed/avatar/36/36.jpg'}" alt="${video.user?.channelName || 'Channel'}" class="channel-avatar">
+            <div class="video-details">
+                <h3 class="video-title">${video.title}</h3>
+                <div class="video-channel ${video.user?.verified ? 'verified' : ''}">
+                    ${video.user?.channelName || 'Unknown Channel'}
+                    ${video.user?.verified ? '<i class="fas fa-check-circle verified-badge"></i>' : ''}
+                </div>
+                <div class="video-meta">
+                    ${formatViews(video.views || 0)} views • ${formatDate(video.createdAt)}
+                </div>
             </div>
         </div>
     `;
     
     card.addEventListener('click', () => playVideo(video));
     return card;
+}
+
+// Sidebar Toggle Function
+function toggleSidebar() {
+    const sidebar = elements.sidebar;
+    const mainWrapper = elements.mainWrapper;
+    
+    if (sidebar.classList.contains('open')) {
+        sidebar.classList.remove('open');
+        mainWrapper.classList.remove('sidebar-open');
+    } else {
+        sidebar.classList.add('open');
+        mainWrapper.classList.add('sidebar-open');
+    }
+}
+
+// Setup Event Listeners
+function setupEventListeners() {
+    // Sidebar Toggle
+    elements.menuToggle?.addEventListener('click', toggleSidebar);
+    
+    // Sidebar Navigation
+    document.querySelectorAll('.sidebar-item').forEach(item => {
+        item.addEventListener('click', (e) => {
+            e.preventDefault();
+            const section = item.getAttribute('data-section');
+            if (section) {
+                showSection(section);
+                // Update active states
+                document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
+                item.classList.add('active');
+            }
+        });
+    });
+    
+    // User Menu
+    elements.userMenuBtn?.addEventListener('click', toggleUserDropdown);
+    elements.logoutBtn?.addEventListener('click', logout);
+    elements.registerBtn?.addEventListener('click', showRegisterModal);
+    elements.loginBtn?.addEventListener('click', showLoginModal);
+    
+    // Search
+    elements.searchBtn?.addEventListener('click', performSearch);
+    elements.searchInput?.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') performSearch();
+    });
+    
+    // Categories
+    elements.categoryCards.forEach(card => {
+        card.addEventListener('click', () => {
+            const category = card.getAttribute('data-category');
+            showCategoryContent(category);
+        });
+    });
+    
+    // Upload
+    elements.uploadBtn?.addEventListener('click', showUploadModal);
+    elements.selectFileBtn?.addEventListener('click', () => elements.fileInput.click());
+    elements.fileInput?.addEventListener('change', handleFileSelect);
+    elements.uploadForm?.addEventListener('submit', handleUpload);
+    elements.removePreview?.addEventListener('click', removePreviewVideo);
+    
+    // Drag and Drop
+    elements.uploadArea?.addEventListener('dragover', handleDragOver);
+    elements.uploadArea?.addEventListener('dragleave', handleDragLeave);
+    elements.uploadArea?.addEventListener('drop', handleDrop);
+    
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!elements.userMenuBtn?.contains(e.target) && !elements.userDropdown?.contains(e.target)) {
+            elements.userDropdown.style.display = 'none';
+        }
+    });
 }
 
 // Format Views Helper
@@ -96,7 +173,9 @@ function formatDate(dateString) {
 // DOM Elements
 const elements = {
     // Navigation
-    navLinks: document.querySelectorAll('.nav-link'),
+    menuToggle: document.getElementById('menu-toggle'),
+    sidebar: document.getElementById('sidebar'),
+    mainWrapper: document.getElementById('main-wrapper'),
     userMenuBtn: document.getElementById('user-menu-btn'),
     userDropdown: document.getElementById('user-dropdown'),
     logoutBtn: document.getElementById('logout-btn'),
@@ -124,13 +203,24 @@ const elements = {
     categoryCards: document.querySelectorAll('.category-card'),
     
     // Upload
+    uploadBtn: document.getElementById('upload-btn'),
+    uploadModal: document.getElementById('upload-modal'),
     uploadForm: document.getElementById('upload-form'),
-    uploadArea: document.getElementById('upload-area'),
     fileInput: document.getElementById('file-input'),
+    uploadArea: document.getElementById('upload-area'),
+    videoPreview: document.getElementById('video-preview'),
     selectFileBtn: document.getElementById('select-file-btn'),
-    uploadPreview: document.getElementById('upload-preview'),
-    previewVideo: document.getElementById('preview-video'),
     removePreview: document.getElementById('remove-preview'),
+    
+    // Auth
+    loginModal: document.getElementById('login-modal'),
+    registerModal: document.getElementById('register-modal'),
+    loginForm: document.getElementById('login-form'),
+    registerForm: document.getElementById('register-form'),
+    loginBtn: document.getElementById('login-btn'),
+    registerBtn: document.getElementById('register-btn'),
+    switchToRegister: document.getElementById('switch-to-register'),
+    switchToLogin: document.getElementById('switch-to-login'),
     
     // Profile
     profileAvatarImg: document.getElementById('profile-avatar-img'),

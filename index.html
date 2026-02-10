@@ -17,60 +17,121 @@
     <!-- Header -->
     <header class="header">
         <div class="container">
-            <div class="logo">
-                <h1><i class="fas fa-play-circle"></i></h1>
-                <p>Watch • Learn • Share</p>
-            </div>
-            <nav class="nav">
-                <a href="#home" class="nav-link active" data-section="home">
-                    <i class="fas fa-home"></i>
-                    <span>Home</span>
-                </a>
-                <a href="#trending" class="nav-link" data-section="trending">
-                    <i class="fas fa-fire"></i>
-                    <span>Trending</span>
-                </a>
-                <a href="#categories" class="nav-link" data-section="categories">
-                    <i class="fas fa-th-large"></i>
-                    <span>Categories</span>
-                </a>
-                <a href="#upload" class="nav-link" data-section="upload">
-                    <i class="fas fa-upload"></i>
-                    <span>Upload</span>
-                </a>
-                <a href="#profile" class="nav-link" data-section="profile">
-                    <i class="fas fa-user"></i>
-                    <span>Profile</span>
-                </a>
-                <a href="#admin" class="nav-link admin-only" data-section="admin">
-                    <i class="fas fa-cog"></i>
-                    <span>Admin</span>
-                </a>
-            </nav>
-            <div class="search-bar">
-                <input type="text" id="search-input" placeholder="Search videos, music, courses..." class="search-input">
-                <button id="search-btn" class="search-btn">
-                    <i class="fas fa-search"></i>
+            <div class="header-left">
+                <button class="menu-toggle" id="menu-toggle">
+                    <i class="fas fa-bars"></i>
                 </button>
+                <div class="logo">
+                    <h1><i class="fas fa-play-circle"></i></h1>
+                    <p>Watch • Learn • Share</p>
+                </div>
             </div>
-            <div class="user-menu">
-                <button id="user-menu-btn" class="user-menu-btn">
-                    <i class="fas fa-user-circle"></i>
-                </button>
-                <div id="user-dropdown" class="user-dropdown">
-                    <a href="#profile" class="dropdown-link">My Channel</a>
-                    <a href="#studio" class="dropdown-link">Creator Studio</a>
-                    <a href="#settings" class="dropdown-link">Settings</a>
-                    <a href="#" id="register-btn" class="dropdown-link">Create Account</a>
-                    <a href="#" id="login-btn" class="dropdown-link">Sign In</a>
-                    <a href="#" id="logout-btn" class="dropdown-link">Sign Out</a>
+            <div class="header-center">
+                <div class="search-container">
+                    <div class="search-bar">
+                        <input type="text" id="search-input" placeholder="Search videos, music, courses..." class="search-input">
+                        <button id="search-btn" class="search-btn">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="user-actions">
+                    <button class="action-btn upload-btn" id="upload-btn">
+                        <i class="fas fa-video"></i>
+                    </button>
+                    <button class="action-btn">
+                        <i class="fas fa-bell"></i>
+                    </button>
+                    <div class="user-menu">
+                        <button id="user-menu-btn" class="user-menu-btn">
+                            <i class="fas fa-user-circle"></i>
+                        </button>
+                        <div id="user-dropdown" class="user-dropdown" style="display: none;">
+                            <a href="#profile" class="dropdown-link">My Channel</a>
+                            <a href="#studio" class="dropdown-link">Creator Studio</a>
+                            <a href="#settings" class="dropdown-link">Settings</a>
+                            <a href="#" id="register-btn" class="dropdown-link">Create Account</a>
+                            <a href="#" id="login-btn" class="dropdown-link">Sign In</a>
+                            <a href="#" id="logout-btn" class="dropdown-link">Sign Out</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </header>
 
-    <!-- Main Content -->
-    <main class="main-content">
+    <!-- YouTube-like Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-section">
+            <div class="sidebar-title">Menu</div>
+            <a href="#home" class="sidebar-item active" data-section="home">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </a>
+            <a href="#trending" class="sidebar-item" data-section="trending">
+                <i class="fas fa-fire"></i>
+                <span>Trending</span>
+            </a>
+            <a href="#categories" class="sidebar-item" data-section="categories">
+                <i class="fas fa-th-large"></i>
+                <span>Categories</span>
+            </a>
+        </div>
+        
+        <div class="sidebar-section">
+            <div class="sidebar-title">Library</div>
+            <a href="#history" class="sidebar-item">
+                <i class="fas fa-history"></i>
+                <span>History</span>
+            </a>
+            <a href="#liked" class="sidebar-item">
+                <i class="fas fa-thumbs-up"></i>
+                <span>Liked videos</span>
+            </a>
+            <a href="#watch-later" class="sidebar-item">
+                <i class="fas fa-clock"></i>
+                <span>Watch later</span>
+            </a>
+            <a href="#downloads" class="sidebar-item">
+                <i class="fas fa-download"></i>
+                <span>Downloads</span>
+            </a>
+        </div>
+        
+        <div class="sidebar-section">
+            <div class="sidebar-title">Subscriptions</div>
+            <a href="#subscriptions" class="sidebar-item">
+                <i class="fas fa-play-circle"></i>
+                <span>All subscriptions</span>
+            </a>
+            <a href="#live" class="sidebar-item">
+                <i class="fas fa-broadcast-tower"></i>
+                <span>Live</span>
+            </a>
+        </div>
+        
+        <div class="sidebar-section">
+            <div class="sidebar-title">More</div>
+            <a href="#settings" class="sidebar-item">
+                <i class="fas fa-cog"></i>
+                <span>Settings</span>
+            </a>
+            <a href="#help" class="sidebar-item">
+                <i class="fas fa-question-circle"></i>
+                <span>Help</span>
+            </a>
+            <a href="#feedback" class="sidebar-item">
+                <i class="fas fa-comment"></i>
+                <span>Send feedback</span>
+            </a>
+        </div>
+    </aside>
+
+    <!-- Main Content Wrapper -->
+    <div class="main-wrapper" id="main-wrapper">
+        <main class="main-content">
         <!-- Home Section -->
         <section id="home" class="content-section active">
             <div class="container">
