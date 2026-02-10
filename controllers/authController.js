@@ -1,9 +1,7 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const { PrismaClient } = require('@prisma/client');
+const prisma = require('../config/database');
 const Joi = require('joi');
-
-const prisma = new PrismaClient();
 
 // Validation schemas
 const registerSchema = Joi.object({

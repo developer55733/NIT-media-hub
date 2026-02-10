@@ -1,7 +1,4 @@
-const { PrismaClient } = require('@prisma/client');
-const Joi = require('joi');
-
-const prisma = new PrismaClient();
+const prisma = require('../config/database');
 
 // Get user profile by ID
 const getUserProfile = async (req, res) => {

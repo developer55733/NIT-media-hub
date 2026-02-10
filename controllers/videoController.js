@@ -1,7 +1,5 @@
-const { PrismaClient } = require('@prisma/client');
+const prisma = require('../config/database');
 const Joi = require('joi');
-
-const prisma = new PrismaClient();
 
 // Validation schemas
 const createVideoSchema = Joi.object({

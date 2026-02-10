@@ -4,7 +4,7 @@ const path = require('path');
 const cors = require('cors');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
-const { PrismaClient } = require('@prisma/client');
+const prisma = require('./config/database');
 
 // Import routes
 const authRoutes = require('./routes/auth');
@@ -19,19 +19,6 @@ const searchRoutes = require('./routes/search');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-
-// Initialize Prisma Client with fallback
-const DATABASE_URL = process.env.DATABASE_URL || 'mysql://root:rFGqmfUlVUcBHwqXviwmqhRazfdNjAXX@mysql.railway.internal:3306/railway';
-const prisma = new PrismaClient({
-  datasources: {
-    db: {
-      url: DATABASE_URL
-    }
-  }
-});
-
-// Log the actual DATABASE_URL being used
-console.log('🔗 DATABASE_URL:', DATABASE_URL);
 
 // Security middleware
 app.use(helmet({
@@ -50,11 +37,12 @@ app.use(helmet({
 
 // Rate limiting
 const limiter = rateLimit({
-  windowMs: parseInt(process.env.RATE_LIMIT_WINDOW_MS) || 15 * 60 * 1000, // 15 minutes
-  max: parseInt(process.env.RATE_LIMIT_MAX_REQUESTS) || 100, // limit each IP to 100 requests per windowMs
-  message: {
-    error: 'Too many requests from this IP, please try again later.'
-  }
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // limit each IP to 100 requests per windowMs
+  message: 'Too many requests from this IP, please try again later.',
+  standardHeaders: true,
+  legacyHeaders: false,
+  trustProxy: true // Enable trust proxy for Railway
 });
 app.use('/api/', limiter);
 
