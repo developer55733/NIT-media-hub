@@ -12,6 +12,10 @@ const videoRoutes = require('./routes/videos');
 const commentRoutes = require('./routes/comments');
 const likeRoutes = require('./routes/likes');
 const userRoutes = require('./routes/users');
+const playlistRoutes = require('./routes/playlists');
+const notificationRoutes = require('./routes/notifications');
+const analyticsRoutes = require('./routes/analytics');
+const searchRoutes = require('./routes/search');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -66,6 +70,10 @@ app.use('/api/videos', videoRoutes);
 app.use('/api/comments', commentRoutes);
 app.use('/api/likes', likeRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/playlists', playlistRoutes);
+app.use('/api/notifications', notificationRoutes);
+app.use('/api/analytics', analyticsRoutes);
+app.use('/api/search', searchRoutes);
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {

@@ -1,4 +1,4 @@
-// API Service for Media Hub - Fixed Version
+// API Service for Media Hub
 class ApiService {
   constructor() {
     this.baseURL = '/api';
@@ -261,110 +261,110 @@ class ApiService {
   async getPublicPlaylists(params = {}) {
     const queryString = new URLSearchParams(params).toString();
     return await this.request(`/playlists/public?${queryString}`);
-  }
+  },
 
   async getPlaylistById(id) {
     return await this.request(`/playlists/${id}`);
-  }
+  },
 
   async createPlaylist(playlistData) {
     return await this.request('/playlists', {
       method: 'POST',
       body: JSON.stringify(playlistData)
     });
-  }
+  },
 
   async addVideosToPlaylist(playlistId, videoIds) {
     return await this.request(`/playlists/${playlistId}/videos`, {
       method: 'POST',
       body: JSON.stringify({ videoIds })
     });
-  }
+  },
 
   async removeVideoFromPlaylist(playlistId, videoId) {
     return await this.request(`/playlists/${playlistId}/videos/${videoId}`, {
       method: 'DELETE'
     });
-  }
+  },
 
   async updatePlaylist(id, playlistData) {
     return await this.request(`/playlists/${id}`, {
       method: 'PUT',
       body: JSON.stringify(playlistData)
     });
-  }
+  },
 
   async deletePlaylist(id) {
     return await this.request(`/playlists/${id}`, {
       method: 'DELETE'
     });
-  }
+  },
 
   async reorderPlaylistVideos(id, videoIds) {
     return await this.request(`/playlists/${id}/reorder`, {
       method: 'PUT',
       body: JSON.stringify({ videoIds })
     });
-  }
+  },
 
   // Notification endpoints
   async getNotifications(params = {}) {
     const queryString = new URLSearchParams(params).toString();
     return await this.request(`/notifications?${queryString}`);
-  }
+  },
 
   async getUnreadNotificationCount() {
     return await this.request('/notifications/unread/count');
-  }
+  },
 
   async markNotificationAsRead(id) {
     return await this.request(`/notifications/${id}/read`, {
       method: 'PUT'
     });
-  }
+  },
 
   async markAllNotificationsAsRead() {
     return await this.request('/notifications/read-all', {
       method: 'PUT'
     });
-  }
+  },
 
   async deleteNotification(id) {
     return await this.request(`/notifications/${id}`, {
       method: 'DELETE'
     });
-  }
+  },
 
   // Analytics endpoints
   async getChannelAnalytics(userId, params = {}) {
     const queryString = new URLSearchParams(params).toString();
     return await this.request(`/analytics/channel/${userId}?${queryString}`);
-  }
+  },
 
   async getVideoAnalytics(videoId) {
     return await this.request(`/analytics/video/${videoId}`);
-  }
+  },
 
   async getPlatformAnalytics(params = {}) {
     const queryString = new URLSearchParams(params).toString();
     return await this.request(`/analytics/platform?${queryString}`);
-  }
+  },
 
   // Search endpoints
   async globalSearch(params = {}) {
     const queryString = new URLSearchParams(params).toString();
     return await this.request(`/search?${queryString}`);
-  }
+  },
 
   async getSearchSuggestions(params = {}) {
     const queryString = new URLSearchParams(params).toString();
     return await this.request(`/search/suggestions?${queryString}`);
-  }
+  },
 
   async getTrendingSearches(params = {}) {
     const queryString = new URLSearchParams(params).toString();
     return await this.request(`/search/trending?${queryString}`);
-  }
+  },
 
   async advancedSearch(params = {}) {
     const queryString = new URLSearchParams(params).toString();
