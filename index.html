@@ -254,30 +254,59 @@
             <form id="register-form" class="auth-form">
                 <div class="form-group">
                     <label for="register-username">Username</label>
-                    <input type="text" id="register-username" class="form-input" placeholder="Choose a username" required>
+                    <input type="text" id="register-username" class="form-input" placeholder="Choose a username" required minlength="3" maxlength="20">
+                    <small class="form-help">3-20 characters, letters, numbers, and underscores only</small>
                 </div>
                 <div class="form-group">
                     <label for="register-email">Email Address</label>
                     <input type="email" id="register-email" class="form-input" placeholder="Enter your email" required>
+                    <small class="form-help">We'll never share your email with anyone</small>
                 </div>
                 <div class="form-group">
                     <label for="register-password">Password</label>
-                    <input type="password" id="register-password" class="form-input" placeholder="Create a password" required>
+                    <input type="password" id="register-password" class="form-input" placeholder="Create a strong password" required minlength="8" maxlength="50">
+                    <small class="form-help">Min 8 characters, include uppercase, lowercase, numbers</small>
                 </div>
                 <div class="form-group">
                     <label for="register-confirm-password">Confirm Password</label>
-                    <input type="password" id="register-confirm-password" required placeholder="Confirm your password..." class="form-input">
+                    <input type="password" id="register-confirm-password" required placeholder="Confirm your password..." class="form-input" minlength="8">
+                    <small class="form-help">Passwords must match</small>
                 </div>
                 <div class="form-group">
-                    <label for="register-description">Channel Description</label>
-                    <textarea id="register-description" placeholder="Tell viewers about your channel..." class="form-textarea"></textarea>
+                    <label for="register-fullname">Full Name</label>
+                    <input type="text" id="register-fullname" class="form-input" placeholder="Enter your full name" required maxlength="50">
+                </div>
+                <div class="form-group">
+                    <label for="register-bio">Bio</label>
+                    <textarea id="register-bio" class="form-textarea" placeholder="Tell us about yourself..." maxlength="200"></textarea>
+                    <small class="form-help">Max 200 characters</small>
+                </div>
+                <div class="form-group">
+                    <label for="register-channel">Channel Name</label>
+                    <input type="text" id="register-channel" class="form-input" placeholder="Your channel name" maxlength="30">
+                </div>
+                <div class="form-group">
+                    <label for="register-category">Content Category</label>
+                    <select id="register-category" class="form-input">
+                        <option value="">Select your primary content type</option>
+                        <option value="videos">Videos</option>
+                        <option value="music">Music</option>
+                        <option value="games">Games</option>
+                        <option value="courses">Courses</option>
+                        <option value="posts">Posts</option>
+                    </select>
                 </div>
                 <div class="form-checkbox">
                     <input type="checkbox" id="accept-terms" required>
                     <label for="accept-terms">I agree to Terms of Service and Privacy Policy</label>
                 </div>
-                <div class="auth-actions">
+                <div class="form-checkbox">
+                    <input type="checkbox" id="newsletter-subscribe">
+                    <label for="newsletter-subscribe">Subscribe to newsletter for updates and tips</label>
+                </div>
+                <div class="form-actions">
                     <button type="submit" class="btn btn-primary" style="width: 100%;">Create Account</button>
+                    <button type="button" id="switch-to-login" class="btn btn-secondary">Already have an account? Sign In</button>
                 </div>
             </form>
             
@@ -302,6 +331,7 @@
     <script src="js/demo-content.js"></script>
     <script src="js/app-init.js"></script>
     <script src="js/uni-hub-main.js"></script>
+    <script src="js/enhanced-functionality.js"></script>
     <script src="test-initialization.js"></script>
 </body>
 </html>

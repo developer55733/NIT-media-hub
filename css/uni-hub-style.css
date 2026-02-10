@@ -469,6 +469,14 @@ body {
     color: var(--text-primary);
 }
 
+.form-help {
+    display: block;
+    margin-top: 4px;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    font-style: italic;
+}
+
 .form-input {
     width: 100%;
     padding: 12px 16px;
@@ -484,6 +492,10 @@ body {
     outline: none;
     border-color: var(--primary);
     background: #2a2a2a;
+}
+
+.form-input:invalid {
+    border-color: var(--accent);
 }
 
 .form-textarea {
@@ -507,7 +519,7 @@ body {
 
 .form-checkbox {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 8px;
     margin-bottom: 20px;
 }
@@ -515,12 +527,89 @@ body {
 .form-checkbox input[type="checkbox"] {
     width: 18px;
     height: 18px;
+    margin-top: 2px;
+}
+
+.form-checkbox label {
+    font-size: 0.9rem;
+    line-height: 1.4;
 }
 
 .form-actions {
     display: flex;
+    flex-direction: column;
     gap: 12px;
     margin-top: 24px;
+}
+
+/* Form Validation */
+.form-input.valid {
+    border-color: #28a745;
+    background: rgba(40, 167, 69, 0.05);
+}
+
+.form-input.invalid {
+    border-color: var(--accent);
+    background: rgba(233, 66, 53, 0.05);
+}
+
+.password-strength {
+    margin-top: 8px;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--border-color);
+    transition: var(--transition);
+}
+
+.password-strength.weak {
+    background: var(--accent);
+    width: 25%;
+}
+
+.password-strength.medium {
+    background: #ffc107;
+    width: 50%;
+}
+
+.password-strength.strong {
+    background: #28a745;
+    width: 75%;
+}
+
+.username-availability {
+    margin-top: 6px;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.username-availability.available {
+    color: #28a745;
+}
+
+.username-availability.unavailable {
+    color: var(--accent);
+}
+
+/* Loading States */
+.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid var(--border-color);
+    border-top: 4px solid var(--primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 
 /* Buttons */
