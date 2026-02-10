@@ -605,6 +605,20 @@ class DemoContentGenerator {
                             <span class="video-likes"><i class="fas fa-thumbs-up"></i> ${this.formatViews(video.likes)}</span>
                             <span class="video-comments"><i class="fas fa-comment"></i> ${video.comments}</span>
                         </div>
+                        <div class="video-actions">
+                            <button class="video-action like-btn" data-content-id="${video.id}">
+                                <i class="far fa-heart"></i>
+                                <span class="like-count">${video.likes}</span>
+                            </button>
+                            <button class="video-action comment-btn" data-content-id="${video.id}">
+                                <i class="far fa-comment"></i>
+                                <span class="comment-count">${video.comments || 0}</span>
+                            </button>
+                            <button class="video-action share-btn" data-content-id="${video.id}">
+                                <i class="far fa-share"></i>
+                                Share
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
