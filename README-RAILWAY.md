@@ -1,13 +1,13 @@
 # Media Hub - Railway Deployment Guide
 
-A comprehensive YouTube-like media sharing platform deployed on Railway with PostgreSQL database.
+A comprehensive YouTube-like media sharing platform deployed on Railway with MySQL database.
 
 ## 🚀 Railway Deployment
 
 ### Prerequisites
 - Railway account
 - GitHub repository with this code
-- PostgreSQL database on Railway
+- MySQL database on Railway
 
 ### Deployment Steps
 
@@ -60,11 +60,10 @@ A comprehensive YouTube-like media sharing platform deployed on Railway with Pos
    ```
 
 4. **Database Setup**
-   - Railway will automatically create a PostgreSQL database
+   - Railway will automatically create a MySQL database
    - The `DATABASE_URL` will be provided automatically
    - Run database migrations:
      ```bash
-     # In Railway console or locally with Railway CLI
      railway run npm run db:migrate
      railway run npm run db:seed
      ```
@@ -111,14 +110,14 @@ media-hub/
 
 ## 🗄️ Database Schema
 
-The application uses PostgreSQL with the following main models:
+The application uses MySQL with the following main models:
 
 - **Users**: Authentication, profiles, channels
 - **Videos**: Video metadata, storage, statistics
-- **Comments**: Nested comments with likes
-- **Likes**: Video likes/dislikes
-- **Playlists**: User video collections
-- **Subscriptions**: Channel subscriptions
+- **Comments**: User interactions with videos
+- **Likes**: User reactions to content
+- **Playlists**: User-curated content collections
+- **Subscriptions**: Channel following system
 
 ## 🔧 API Endpoints
 

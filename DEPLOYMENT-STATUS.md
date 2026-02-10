@@ -21,7 +21,6 @@ Your Media Hub is now **fully functional** and **ready for Railway deployment**!
 - ✅ **Security** - JWT auth, rate limiting, input validation
 
 ### **🗄️ Database Support**
-- ✅ **PostgreSQL** - Prisma ORM with modern features
 - ✅ **MySQL** - Native SQL with advanced schema
 - ✅ **Migrations** - Database versioning and seeding
 - ✅ **Connection Pooling** - Optimized database connections
@@ -59,9 +58,8 @@ media-hub/
 ├── database/            # Database schemas and configs
 ├── scripts/             # Deployment utilities
 ├── js/                 # Frontend API service
-├── prisma/             # PostgreSQL schema
+├── prisma/             # MySQL schema
 ├── server.js            # Main application server
-├── server-mysql.js      # MySQL server alternative
 ├── index.html           # Frontend application
 ├── style.css            # Application styles
 ├── package.json          # Dependencies and scripts
@@ -148,14 +146,8 @@ media-hub/
 
 ### **Required Variables**
 ```env
-# Database (choose one)
-DATABASE_URL=postgresql://username:password@host:port/database
-# OR
-DB_HOST=localhost
-DB_PORT=3306
-DB_USER=username
-DB_PASSWORD=password
-DB_NAME=media_hub
+# Database (MySQL only)
+DATABASE_URL=mysql://username:password@host:port/database
 
 # Application
 NODE_ENV=production
@@ -208,13 +200,9 @@ In Railway dashboard, add all variables from the section above
 
 ### **4. Database Setup**
 ```bash
-# For PostgreSQL (Railway provides DATABASE_URL automatically)
+# For MySQL (Railway provides DATABASE_URL automatically)
 railway run npm run db:migrate
 railway run npm run db:seed
-
-# For MySQL (if using alternative)
-railway run npm run mysql:init
-railway run npm run mysql:seed
 ```
 
 ### **5. Start Application**

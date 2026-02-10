@@ -73,17 +73,8 @@ In your Railway project settings, add these environment variables:
 
 #### **Database Configuration**
 ```env
-# Choose ONE database option:
-
-# Option 1: PostgreSQL (Recommended)
-DATABASE_URL=postgresql://username:password@host:port/database
-
-# Option 2: MySQL
-DB_HOST=localhost
-DB_PORT=3306
-DB_USER=username
-DB_PASSWORD=password
-DB_NAME=media_hub
+# Database Configuration - MySQL Only
+DATABASE_URL="mysql://root:password@localhost:3306/media_hub"
 ```
 
 #### **Application Configuration**
@@ -124,6 +115,15 @@ railway run npm run db:migrate
 railway run npm run db:seed
 ```
 
+#### **For MySQL (Prisma)**
+```bash
+# Run migrations (Railway will provide DATABASE_URL)
+railway run npm run db:migrate
+
+# Run database seeding (optional)
+railway run npm run db:seed
+```
+
 #### **For MySQL**
 ```bash
 # Initialize database
@@ -135,19 +135,17 @@ railway run npm run mysql:seed
 
 Railway will automatically start your application with:
 ```bash
-npm start  # For PostgreSQL
-# or
-npm run start:mysql  # For MySQL
+npm start  # For MySQL
 ```
 
 ---
 
 ## 🔧 **Database Choice**
 
-### **PostgreSQL (Recommended)**
-- **Pros**: Modern ORM, better performance, Railway native support
+### **MySQL (Current Configuration)**
+- **Pros**: Simple setup, widely supported, good performance
 - **Use**: `npm start` command
-- **Schema**: `prisma/schema.prisma`
+- **Schema**: `prisma/schema.prisma` (MySQL provider)
 
 ### **MySQL**
 - **Pros**: Familiar SQL syntax, widespread hosting support
@@ -288,16 +286,13 @@ NODE_ENV=development
 ### **Common Commands**
 ```bash
 # Local development
-npm run dev              # PostgreSQL
-npm run dev:mysql         # MySQL
+npm run dev              # MySQL
 
 # Database operations
-npm run db:studio         # Prisma Studio
-npm run mysql:console      # MySQL console
-
-# Deployment
-railway up               # Deploy via CLI
-git push origin main     # Deploy via GitHub
+npm run db:generate      # Generate Prisma client
+npm run db:migrate       # Run database migrations
+npm run db:seed         # Seed database with sample data
+npm run db:studio        # Open Prisma Studio
 ```
 
 ---
