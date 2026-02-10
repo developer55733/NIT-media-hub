@@ -1,4 +1,5 @@
 // Media Hub - Complete YouTube-like Platform JavaScript
+// Updated to use API endpoints instead of hardcoded data
 
 // Global State
 let currentUser = null;
@@ -96,12 +97,99 @@ const elements = {
 };
 
 // Initialize Application
-function init() {
+async function init() {
     setupEventListeners();
-    loadMockData();
-    checkAdminAccess();
+    await checkAuthStatus();
+    await loadInitialData();
     showSection('home');
     updateUI();
+}
+
+// Check authentication status
+async function checkAuthStatus() {
+    try {
+        if (api.token) {
+            const response = await api.getCurrentUser();
+            currentUser = response.user;
+            isAdmin = currentUser.isAdmin;
+            updateAuthUI();
+        }
+    } catch (error) {
+        console.log('User not authenticated');
+        api.logout();
+    }
+}
+
+// Load initial data from API
+async function loadInitialData() {
+    try {
+        // Load videos
+        const videosResponse = await api.getVideos({ limit: 20 });
+        allVideos = videosResponse.videos || [];
+        
+        // Load trending videos
+        const trendingResponse = await api.getTrendingVideos({ limit: 10 });
+        
+        // Update UI with loaded data
+        displayHomeVideos();
+        displayTrendingVideos(trendingResponse.videos || []);
+        
+    } catch (error) {
+        console.error('Error loading initial data:', error);
+        // Fallback to demo mode if API fails
+        loadDemoData();
+    }
+}
+
+// Demo data fallback
+function loadDemoData() {
+    allVideos = [
+        {
+            id: 'demo-1',
+            title: "Amazing Nature Documentary - 4K Ultra HD",
+            description: "Experience the breathtaking beauty of nature in stunning 4K resolution.",
+            thumbnail: "https://picsum.photos/seed/nature1/400/225.jpg",
+            videoUrl: "https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_1mb.mp4",
+            duration: "12:34",
+            views: 1542000,
+            likes: 45600,
+            dislikes: 234,
+            category: "movies",
+            uploadDate: "2024-01-10",
+            tags: ["nature", "documentary", "4k", "wildlife"],
+            user: {
+                id: 'demo-user-1',
+                username: 'naturechannel',
+                channelName: 'Nature Channel',
+                avatar: 'https://picsum.photos/seed/nature/50/50.jpg',
+                subscribers: 1250000
+            }
+        },
+        {
+            id: 'demo-2',
+            title: "Learn JavaScript - Complete Course for Beginners",
+            description: "Start your web development journey with this comprehensive JavaScript course.",
+            thumbnail: "https://picsum.photos/seed/js-course/400/225.jpg",
+            videoUrl: "https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_2mb.mp4",
+            duration: "45:20",
+            views: 893000,
+            likes: 23400,
+            dislikes: 123,
+            category: "courses",
+            uploadDate: "2024-01-08",
+            tags: ["javascript", "programming", "tutorial", "web development"],
+            user: {
+                id: 'demo-user-2',
+                username: 'codeacademy',
+                channelName: 'Code Academy',
+                avatar: 'https://picsum.photos/seed/code/50/50.jpg',
+                subscribers: 890000
+            }
+        }
+    ];
+    
+    displayHomeVideos();
+    displayTrendingVideos(allVideos);
 }
 
 // Setup Event Listeners
@@ -178,672 +266,442 @@ function setupEventListeners() {
     });
 }
 
-// Mock Data Generation
-function loadMockData() {
-    // Generate mock videos
-    allVideos = [
-        {
-            id: 1,
-            title: "Amazing Nature Documentary - 4K Ultra HD",
-            description: "Experience the breathtaking beauty of nature in stunning 4K resolution. This documentary takes you on a journey through the world's most spectacular landscapes.",
-            category: "movies",
-            thumbnail: "https://picsum.photos/seed/nature1/400/225.jpg",
-            videoUrl: "https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_1mb.mp4",
-            duration: "12:34",
-            views: 1542000,
-            likes: 45600,
-            dislikes: 234,
-            comments: [
-                { id: 1, user: "NatureLover", text: "Absolutely stunning! The cinematography is incredible.", date: "2024-01-15", likes: 45 },
-                { id: 2, user: "WildlifeFan", text: "This reminds me of my trip to Yellowstone!", date: "2024-01-16", likes: 23 }
-            ],
-            channel: {
-                name: "Nature Channel",
-                avatar: "https://picsum.photos/seed/nature/50/50.jpg",
-                subscribers: 1250000
-            },
-            uploadDate: "2024-01-10",
-            tags: ["nature", "documentary", "4k", "wildlife"]
-        },
-        {
-            id: 2,
-            title: "Learn JavaScript - Complete Course for Beginners",
-            description: "Start your web development journey with this comprehensive JavaScript course. Perfect for absolute beginners!",
-            category: "courses",
-            thumbnail: "https://picsum.photos/seed/js-course/400/225.jpg",
-            videoUrl: "https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_2mb.mp4",
-            duration: "45:20",
-            views: 893000,
-            likes: 23400,
-            dislikes: 123,
-            comments: [
-                { id: 3, user: "CodeNewbie", text: "Best JavaScript tutorial I've found!", date: "2024-01-14", likes: 67 }
-            ],
-            channel: {
-                name: "Code Academy",
-                avatar: "https://picsum.photos/seed/code/50/50.jpg",
-                subscribers: 890000
-            },
-            uploadDate: "2024-01-08",
-            tags: ["javascript", "programming", "tutorial", "web development"]
-        },
-        {
-            id: 3,
-            title: "Epic Gaming Moments 2024 Compilation",
-            description: "The most epic gaming moments of 2024! Watch incredible plays, funny fails, and amazing skills.",
-            category: "gaming",
-            thumbnail: "https://picsum.photos/seed/gaming1/400/225.jpg",
-            videoUrl: "https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_5mb.mp4",
-            duration: "18:45",
-            views: 2345000,
-            likes: 89000,
-            dislikes: 456,
-            comments: [
-                { id: 4, user: "GamerPro", text: "That last clip was insane! 🔥", date: "2024-01-13", likes: 89 },
-                { id: 5, user: "CasualPlayer", text: "Love these compilations! Keep them coming!", date: "2024-01-14", likes: 34 }
-            ],
-            channel: {
-                name: "Gaming Central",
-                avatar: "https://picsum.photos/seed/gaming/50/50.jpg",
-                subscribers: 2100000
-            },
-            uploadDate: "2024-01-12",
-            tags: ["gaming", "compilation", "epic moments", "2024"]
-        },
-        {
-            id: 4,
-            title: "Relaxing Music for Study & Focus",
-            description: "Beautiful instrumental music to help you study, focus, and relax. Perfect for work and meditation.",
-            category: "music",
-            thumbnail: "https://picsum.photos/seed/music1/400/225.jpg",
-            videoUrl: "https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_1mb.mp4",
-            duration: "1:02:30",
-            views: 567000,
-            likes: 34500,
-            dislikes: 89,
-            comments: [
-                { id: 6, user: "StudentLife", text: "This helps me concentrate so much!", date: "2024-01-11", likes: 23 }
-            ],
-            channel: {
-                name: "Calm Sounds",
-                avatar: "https://picsum.photos/seed/music/50/50.jpg",
-                subscribers: 450000
-            },
-            uploadDate: "2024-01-09",
-            tags: ["music", "study", "focus", "relaxing"]
-        },
-        {
-            id: 5,
-            title: "Latest Sports Highlights - January 2024",
-            description: "Catch up on all the best sports moments from January 2024. Goals, saves, and incredible plays!",
-            category: "sports",
-            thumbnail: "https://picsum.photos/seed/sports1/400/225.jpg",
-            videoUrl: "https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_2mb.mp4",
-            duration: "25:15",
-            views: 1234000,
-            likes: 67800,
-            dislikes: 234,
-            comments: [
-                { id: 7, user: "SportsFan", text: "That goal at 15:30 was incredible!", date: "2024-01-10", likes: 56 }
-            ],
-            channel: {
-                name: "Sports Network",
-                avatar: "https://picsum.photos/seed/sports/50/50.jpg",
-                subscribers: 1800000
-            },
-            uploadDate: "2024-01-07",
-            tags: ["sports", "highlights", "january 2024", "goals"]
-        },
-        {
-            id: 6,
-            title: "Breaking News: Technology Updates",
-            description: "Latest updates from the tech world. New gadgets, innovations, and industry news.",
-            category: "news",
-            thumbnail: "https://picsum.photos/seed/news1/400/225.jpg",
-            videoUrl: "https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_1mb.mp4",
-            duration: "8:45",
-            views: 445000,
-            likes: 12300,
-            dislikes: 67,
-            comments: [
-                { id: 8, user: "TechEnthusiast", text: "Great coverage of the latest tech trends!", date: "2024-01-09", likes: 12 }
-            ],
-            channel: {
-                name: "Tech News Daily",
-                avatar: "https://picsum.photos/seed/news/50/50.jpg",
-                subscribers: 320000
-            },
-            uploadDate: "2024-01-06",
-            tags: ["news", "technology", "updates", "gadgets"]
-        }
-    ];
-    
-    // Generate mock users
-    allUsers = [
-        { id: 1, name: "Nature Channel", email: "nature@mediahub.com", role: "creator", subscribers: 1250000 },
-        { id: 2, name: "Code Academy", email: "code@mediahub.com", role: "creator", subscribers: 890000 },
-        { id: 3, name: "Gaming Central", email: "gaming@mediahub.com", role: "creator", subscribers: 2100000 },
-        { id: 4, name: "Calm Sounds", email: "music@mediahub.com", role: "creator", subscribers: 450000 },
-        { id: 5, name: "Sports Network", email: "sports@mediahub.com", role: "creator", subscribers: 1800000 },
-        { id: 6, name: "Tech News Daily", email: "news@mediahub.com", role: "creator", subscribers: 320000 },
-        { id: 7, name: "Admin User", email: "admin@mediahub.com", role: "admin", subscribers: 0 }
-    ];
-    
-    // Set current user (for demo)
-    currentUser = allUsers[6]; // Admin User
-    isAdmin = currentUser && currentUser.role === 'admin';
+// Authentication Functions
+async function login(email, password) {
+    try {
+        const response = await api.login({ email, password });
+        currentUser = response.user;
+        isAdmin = currentUser.isAdmin;
+        updateAuthUI();
+        showNotification('Login successful!', 'success');
+        return true;
+    } catch (error) {
+        showNotification('Login failed: ' + error.message, 'error');
+        return false;
+    }
 }
 
-// Update UI based on current user
-function updateUI() {
+async function register(userData) {
+    try {
+        const response = await api.register(userData);
+        currentUser = response.user;
+        isAdmin = currentUser.isAdmin;
+        updateAuthUI();
+        showNotification('Registration successful!', 'success');
+        return true;
+    } catch (error) {
+        showNotification('Registration failed: ' + error.message, 'error');
+        return false;
+    }
+}
+
+function logout() {
+    api.logout();
+    currentUser = null;
+    isAdmin = false;
+    updateAuthUI();
+    showNotification('Logged out successfully', 'info');
+    showSection('home');
+}
+
+function updateAuthUI() {
     if (currentUser) {
-        // Update profile
-        if (elements.channelName) elements.channelName.textContent = currentUser.name;
-        if (elements.subscribers) elements.subscribers.textContent = formatNumber(currentUser.subscribers || 0);
+        // Show authenticated UI
+        document.querySelectorAll('.auth-required').forEach(el => {
+            el.style.display = 'block';
+        });
+        document.querySelectorAll('.auth-hidden').forEach(el => {
+            el.style.display = 'none';
+        });
         
-        // Show/hide admin elements
-        const adminElements = document.querySelectorAll('.admin-only');
-        adminElements.forEach(el => {
-            el.style.display = isAdmin ? 'block' : 'none';
+        if (isAdmin) {
+            document.querySelectorAll('.admin-only').forEach(el => {
+                el.style.display = 'block';
+            });
+        }
+        
+        // Update user menu
+        if (elements.userMenuBtn) {
+            elements.userMenuBtn.innerHTML = `
+                <img src="${currentUser.avatar || 'https://picsum.photos/seed/user/40/40.jpg'}" 
+                     alt="${currentUser.channelName}" 
+                     class="user-avatar">
+            `;
+        }
+    } else {
+        // Show unauthenticated UI
+        document.querySelectorAll('.auth-required').forEach(el => {
+            el.style.display = 'none';
+        });
+        document.querySelectorAll('.auth-hidden').forEach(el => {
+            el.style.display = 'block';
+        });
+        document.querySelectorAll('.admin-only').forEach(el => {
+            el.style.display = 'none';
         });
     }
 }
 
-// Navigation
-function showSection(sectionId) {
-    elements.sections.forEach(section => {
-        section.classList.remove('active');
+// Video Functions
+function displayHomeVideos() {
+    if (!elements.homeVideos) return;
+    
+    const featuredVideo = allVideos[0];
+    if (featuredVideo) {
+        displayFeaturedVideo(featuredVideo);
+    }
+    
+    const otherVideos = allVideos.slice(1, 9); // Show 8 more videos
+    displayVideoGrid(elements.homeVideos, otherVideos);
+}
+
+function displayFeaturedVideo(video) {
+    if (!elements.featuredVideoPlayer) return;
+    
+    elements.featuredVideoPlayer.src = video.videoUrl;
+    elements.featuredTitle.textContent = video.title;
+    elements.featuredDescription.textContent = video.description;
+    elements.featuredViews.textContent = formatNumber(video.views) + ' views';
+    elements.featuredDate.textContent = formatDate(video.uploadDate);
+}
+
+function displayTrendingVideos(videos) {
+    if (!elements.trendingVideos) return;
+    displayVideoGrid(elements.trendingVideos, videos);
+}
+
+function displayVideoGrid(container, videos) {
+    if (!container) return;
+    
+    container.innerHTML = videos.map(video => `
+        <div class="video-card" data-video-id="${video.id}">
+            <div class="video-thumbnail">
+                <img src="${video.thumbnail}" alt="${video.title}">
+                <div class="video-duration">${video.duration || '00:00'}</div>
+                <div class="play-overlay">
+                    <i class="fas fa-play"></i>
+                </div>
+            </div>
+            <div class="video-info">
+                <h3 class="video-title">${video.title}</h3>
+                <div class="video-meta">
+                    <div class="channel-info">
+                        <img src="${video.user.avatar}" alt="${video.user.channelName}" class="channel-avatar">
+                        <span class="channel-name">${video.user.channelName}</span>
+                    </div>
+                    <div class="video-stats">
+                        <span class="views">${formatNumber(video.views)} views</span>
+                        <span class="upload-date">${formatDate(video.uploadDate)}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `).join('');
+    
+    // Add click listeners to video cards
+    container.querySelectorAll('.video-card').forEach(card => {
+        card.addEventListener('click', () => {
+            const videoId = card.getAttribute('data-video-id');
+            openVideoModal(videoId);
+        });
     });
-    
-    elements.navLinks.forEach(link => {
-        link.classList.remove('active');
-    });
-    
-    const targetSection = document.getElementById(sectionId);
-    const targetLink = document.querySelector(`[data-section="${sectionId}"]`);
-    
-    if (targetSection) targetSection.classList.add('active');
-    if (targetLink) targetLink.classList.add('active');
-    
-    // Load section-specific content
-    switch(sectionId) {
-        case 'home':
-            loadHomeContent();
-            break;
-        case 'trending':
-            loadTrendingContent();
-            break;
-        case 'profile':
-            loadProfileContent();
-            break;
-        case 'admin':
-            loadAdminContent();
-            break;
+}
+
+async function openVideoModal(videoId) {
+    try {
+        const response = await api.getVideoById(videoId);
+        currentVideo = response.video;
+        displayVideoInModal(currentVideo);
+        elements.videoModal.style.display = 'flex';
+    } catch (error) {
+        showNotification('Failed to load video: ' + error.message, 'error');
     }
 }
 
-function toggleUserDropdown() {
-    elements.userDropdown.classList.toggle('show');
-}
-
-// Search Functionality
-function performSearch() {
-    const query = elements.searchInput.value.toLowerCase();
-    if (!query) return;
+function displayVideoInModal(video) {
+    if (!elements.modalVideoPlayer) return;
     
-    const results = allVideos.filter(video => 
-        video.title.toLowerCase().includes(query) ||
-        video.description.toLowerCase().includes(query) ||
-        video.channel.name.toLowerCase().includes(query) ||
-        video.tags.some(tag => tag.toLowerCase().includes(query))
-    );
+    elements.modalVideoPlayer.src = video.videoUrl;
+    elements.modalVideoTitle.textContent = video.title;
+    elements.modalViews.textContent = formatNumber(video.views) + ' views';
+    elements.modalDate.textContent = formatDate(video.uploadDate);
+    elements.modalCategory.textContent = video.category;
+    elements.modalDescription.textContent = video.description;
     
-    displaySearchResults(results);
-}
-
-function displaySearchResults(results) {
-    elements.homeVideos.innerHTML = '<h3>Search Results</h3>';
+    // Channel info
+    elements.modalChannelAvatar.src = video.user.avatar;
+    elements.modalChannelName.textContent = video.user.channelName;
+    elements.modalChannelSubs.textContent = formatNumber(video.user.subscribers) + ' subscribers';
     
-    if (results.length === 0) {
-        elements.homeVideos.innerHTML += '<p>No videos found. Try different keywords.</p>';
-        return;
+    // Like counts
+    elements.likeCount.textContent = formatNumber(video.likes);
+    elements.dislikeCount.textContent = formatNumber(video.dislikes || 0);
+    
+    // Comments
+    elements.commentsCount.textContent = video._count?.comments || 0;
+    loadComments(video.id);
+    
+    // Check if user is subscribed
+    if (currentUser) {
+        checkSubscriptionStatus(video.user.id);
     }
-    
-    results.forEach(video => {
-        const videoCard = createVideoCard(video);
-        elements.homeVideos.appendChild(videoCard);
-    });
 }
 
-// Home Content
-function loadHomeContent() {
-    // Load featured video
-    if (allVideos.length > 0) {
-        const featured = allVideos[0];
-        elements.featuredTitle.textContent = featured.title;
-        elements.featuredDescription.textContent = featured.description;
-        elements.featuredViews.innerHTML = `<i class="fas fa-eye"></i> ${formatNumber(featured.views)} views`;
-        elements.featuredDate.innerHTML = `<i class="fas fa-calendar"></i> ${featured.uploadDate}`;
-        elements.featuredVideoPlayer.poster = featured.thumbnail;
-        elements.featuredVideoPlayer.src = featured.videoUrl;
+async function loadComments(videoId) {
+    try {
+        const response = await api.getComments(videoId);
+        displayComments(response.comments || []);
+    } catch (error) {
+        console.error('Error loading comments:', error);
     }
-    
-    // Load recommended videos
-    elements.homeVideos.innerHTML = '';
-    allVideos.forEach(video => {
-        const videoCard = createVideoCard(video);
-        elements.homeVideos.appendChild(videoCard);
-    });
 }
 
-// Trending Content
-function loadTrendingContent() {
-    const trending = [...allVideos].sort((a, b) => b.views - a.views);
-    elements.trendingVideos.innerHTML = '';
+function displayComments(comments) {
+    if (!elements.commentsContainer) return;
     
-    trending.forEach(video => {
-        const videoCard = createVideoCard(video);
-        elements.trendingVideos.appendChild(videoCard);
-    });
+    elements.commentsContainer.innerHTML = comments.map(comment => `
+        <div class="comment">
+            <img src="${comment.user.avatar}" alt="${comment.user.username}" class="comment-avatar">
+            <div class="comment-content">
+                <div class="comment-header">
+                    <span class="comment-author">${comment.user.username}</span>
+                    <span class="comment-date">${formatDate(comment.createdAt)}</span>
+                </div>
+                <div class="comment-text">${comment.text}</div>
+                <div class="comment-actions">
+                    <button class="comment-like-btn" data-comment-id="${comment.id}">
+                        <i class="fas fa-thumbs-up"></i> ${comment.likes}
+                    </button>
+                    <button class="comment-reply-btn">Reply</button>
+                </div>
+            </div>
+        </div>
+    `).join('');
 }
 
-function setTrendingFilter(time, btn) {
-    elements.filterBtns.forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
+async function postComment() {
+    if (!currentUser || !currentVideo || !elements.commentInput) return;
     
-    let filtered = [...allVideos];
+    const text = elements.commentInput.value.trim();
+    if (!text) return;
     
-    switch(time) {
-        case 'today':
-            // Filter for today's videos (mock)
-            filtered = filtered.slice(0, 2);
-            break;
-        case 'week':
-            // Filter for this week's videos (mock)
-            filtered = filtered.slice(0, 4);
-            break;
-        case 'month':
-            // Filter for this month's videos (mock)
-            filtered = filtered.slice(0, 6);
-            break;
-        case 'all':
-            // All videos
-            break;
+    try {
+        await api.createComment(currentVideo.id, { text });
+        elements.commentInput.value = '';
+        loadComments(currentVideo.id);
+        showNotification('Comment posted!', 'success');
+    } catch (error) {
+        showNotification('Failed to post comment: ' + error.message, 'error');
     }
-    
-    elements.trendingVideos.innerHTML = '';
-    filtered.forEach(video => {
-        const videoCard = createVideoCard(video);
-        elements.trendingVideos.appendChild(videoCard);
-    });
 }
 
-// Category Content
-function showCategoryContent(category) {
-    showSection('categories');
-    const filtered = allVideos.filter(video => video.category === category);
+async function likeVideo() {
+    if (!currentUser || !currentVideo) return;
     
-    // Show category-specific content
-    const categoryGrid = document.querySelector('.category-grid-full');
-    categoryGrid.innerHTML = '';
-    
-    if (filtered.length === 0) {
-        categoryGrid.innerHTML = '<p>No videos in this category yet.</p>';
-        return;
+    try {
+        await api.toggleVideoLike(currentVideo.id, 'like');
+        // Update UI
+        const currentLikes = parseInt(elements.likeCount.textContent.replace(/,/g, ''));
+        elements.likeCount.textContent = formatNumber(currentLikes + 1);
+        showNotification('Video liked!', 'success');
+    } catch (error) {
+        showNotification('Failed to like video: ' + error.message, 'error');
     }
-    
-    filtered.forEach(video => {
-        const videoCard = createVideoCard(video);
-        categoryGrid.appendChild(videoCard);
-    });
 }
 
-// Upload Functionality
+async function dislikeVideo() {
+    if (!currentUser || !currentVideo) return;
+    
+    try {
+        await api.toggleVideoLike(currentVideo.id, 'dislike');
+        // Update UI
+        const currentDislikes = parseInt(elements.dislikeCount.textContent.replace(/,/g, ''));
+        elements.dislikeCount.textContent = formatNumber(currentDislikes + 1);
+        showNotification('Video disliked!', 'info');
+    } catch (error) {
+        showNotification('Failed to dislike video: ' + error.message, 'error');
+    }
+}
+
+async function subscribeToChannel() {
+    if (!currentUser || !currentVideo) return;
+    
+    try {
+        await api.toggleSubscription(currentVideo.user.id);
+        // Update button text
+        const btn = elements.modalSubscribeBtn;
+        btn.textContent = btn.textContent === 'Subscribe' ? 'Subscribed' : 'Subscribe';
+        showNotification('Subscription updated!', 'success');
+    } catch (error) {
+        showNotification('Failed to update subscription: ' + error.message, 'error');
+    }
+}
+
+// Upload Functions
 function handleFileSelect(e) {
     const file = e.target.files[0];
     if (file) {
-        showPreview(file);
+        previewVideoFile(file);
     }
 }
 
-function handleDragOver(e) {
-    e.preventDefault();
-    elements.uploadArea.classList.add('dragover');
-}
-
-function handleDragLeave(e) {
-    e.preventDefault();
-    elements.uploadArea.classList.remove('dragover');
-}
-
-function handleDrop(e) {
-    e.preventDefault();
-    elements.uploadArea.classList.remove('dragover');
+function previewVideoFile(file) {
+    if (!elements.previewVideo || !elements.uploadPreview) return;
     
-    const file = e.dataTransfer.files[0];
-    if (file) {
-        showPreview(file);
-    }
-}
-
-function showPreview(file) {
     const url = URL.createObjectURL(file);
     elements.previewVideo.src = url;
-    elements.uploadArea.style.display = 'none';
     elements.uploadPreview.style.display = 'block';
 }
 
 function removePreviewVideo() {
-    elements.previewVideo.src = '';
-    elements.uploadArea.style.display = 'block';
-    elements.uploadPreview.style.display = 'none';
-    elements.fileInput.value = '';
+    if (elements.previewVideo && elements.uploadPreview) {
+        elements.previewVideo.src = '';
+        elements.uploadPreview.style.display = 'none';
+        if (elements.fileInput) {
+            elements.fileInput.value = '';
+        }
+    }
 }
 
-function handleUpload(e) {
+async function handleUpload(e) {
     e.preventDefault();
     
-    const formData = new FormData(elements.uploadForm);
-    const videoData = {
-        id: Date.now(),
-        title: formData.get('video-title'),
-        description: formData.get('video-description'),
-        category: formData.get('video-category'),
-        visibility: formData.get('video-visibility'),
-        tags: formData.get('video-tags').split(',').map(tag => tag.trim()),
-        channel: {
-            name: currentUser.name,
-            avatar: "https://picsum.photos/seed/user/50/50.jpg",
-            subscribers: currentUser.subscribers || 0
-        },
-        uploadDate: new Date().toISOString().split('T')[0],
-        views: 0,
-        likes: 0,
-        dislikes: 0,
-        comments: []
-    };
-    
-    // In real app, this would upload to server
-    console.log('Uploading video:', videoData);
-    
-    // Simulate successful upload
-    allVideos.unshift(videoData);
-    
-    alert('Video uploaded successfully!');
-    elements.uploadForm.reset();
-    removePreviewVideo();
-    
-    // Refresh content
-    showSection('home');
-}
-
-// Profile Content
-function loadProfileContent() {
-    // Load user's videos
-    const userVideos = allVideos.filter(video => video.channel.name === currentUser.name);
-    elements.userVideos.innerHTML = '';
-    
-    if (userVideos.length === 0) {
-        elements.userVideos.innerHTML = '<p>No videos uploaded yet.</p>';
+    if (!currentUser) {
+        showNotification('Please login to upload videos', 'error');
         return;
     }
     
-    userVideos.forEach(video => {
-        const videoCard = createVideoCard(video);
-        elements.userVideos.appendChild(videoCard);
+    const formData = new FormData(elements.uploadForm);
+    
+    try {
+        await api.createVideo(formData);
+        showNotification('Video uploaded successfully!', 'success');
+        removePreviewVideo();
+        elements.uploadForm.reset();
+        showSection('profile');
+        // Reload user videos
+        await loadUserVideos();
+    } catch (error) {
+        showNotification('Upload failed: ' + error.message, 'error');
+    }
+}
+
+// Search Functions
+async function performSearch() {
+    const query = elements.searchInput?.value.trim();
+    if (!query) return;
+    
+    try {
+        const response = await api.getVideos({ search: query });
+        allVideos = response.videos || [];
+        displayVideoGrid(elements.homeVideos, allVideos);
+        showSection('home');
+    } catch (error) {
+        showNotification('Search failed: ' + error.message, 'error');
+    }
+}
+
+// UI Helper Functions
+function showSection(sectionName) {
+    // Hide all sections
+    elements.sections.forEach(section => {
+        section.classList.remove('active');
     });
     
-    // Update stats
-    const totalViews = userVideos.reduce((sum, video) => sum + video.views, 0);
-    if (elements.totalViews) elements.totalViews.textContent = formatNumber(totalViews);
-    if (elements.videoCount) elements.videoCount.textContent = userVideos.length;
+    // Show target section
+    const targetSection = document.getElementById(sectionName);
+    if (targetSection) {
+        targetSection.classList.add('active');
+    }
+    
+    // Update nav links
+    elements.navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('data-section') === sectionName) {
+            link.classList.add('active');
+        }
+    });
+    
+    // Load section-specific data
+    if (sectionName === 'profile' && currentUser) {
+        loadUserProfile();
+    } else if (sectionName === 'admin' && isAdmin) {
+        loadAdminData();
+    }
 }
 
-function showTab(tabName) {
-    elements.tabBtns.forEach(btn => btn.classList.remove('active'));
-    elements.tabContents.forEach(content => content.classList.remove('active'));
-    
-    document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
-    document.getElementById(`profile-${tabName}`).classList.add('active');
-}
-
-// Admin Content
-function loadAdminContent() {
-    if (!isAdmin) return;
-    
-    // Update admin stats
-    const totalViews = allVideos.reduce((sum, video) => sum + video.views, 0);
-    const totalLikes = allVideos.reduce((sum, video) => sum + video.likes, 0);
-    const totalComments = allVideos.reduce((sum, video) => sum + video.comments.length, 0);
-    
-    if (elements.totalVideosAdmin) elements.totalVideosAdmin.textContent = allVideos.length;
-    if (elements.pendingVideos) elements.pendingVideos.textContent = Math.floor(Math.random() * 5);
-    if (elements.reportedVideos) elements.reportedVideos.textContent = Math.floor(Math.random() * 3);
-    if (elements.totalUsers) elements.totalUsers.textContent = allUsers.length;
-    if (elements.activeUsers) elements.activeUsers.textContent = Math.floor(Math.random() * 50) + 20;
-    if (elements.newUsers) elements.newUsers.textContent = Math.floor(Math.random() * 10) + 5;
-    if (elements.totalViewsAdmin) elements.totalViewsAdmin.textContent = formatNumber(totalViews);
-    if (elements.totalLikes) elements.totalLikes.textContent = formatNumber(totalLikes);
-    if (elements.totalComments) elements.totalComments.textContent = formatNumber(totalComments);
-}
-
-// Video Player Modal
-function showVideoModal(video) {
-    currentVideo = video;
-    
-    elements.modalVideoTitle.textContent = video.title;
-    elements.modalViews.innerHTML = `<i class="fas fa-eye"></i> ${formatNumber(video.views)} views`;
-    elements.modalDate.innerHTML = `<i class="fas fa-calendar"></i> ${video.uploadDate}`;
-    elements.modalCategory.textContent = getCategoryName(video.category);
-    elements.likeCount.textContent = formatNumber(video.likes);
-    elements.dislikeCount.textContent = formatNumber(video.dislikes);
-    elements.modalChannelName.textContent = video.channel.name;
-    elements.modalChannelSubs.textContent = `${formatNumber(video.channel.subscribers)} subscribers`;
-    elements.modalDescription.textContent = video.description;
-    elements.commentsCount.textContent = video.comments.length;
-    
-    elements.modalVideoPlayer.src = video.videoUrl;
-    elements.modalChannelAvatar.src = video.channel.avatar;
-    
-    loadComments(video.comments);
-    
-    elements.videoModal.classList.add('show');
-    
-    // Increment view count
-    video.views++;
-    elements.modalViews.innerHTML = `<i class="fas fa-eye"></i> ${formatNumber(video.views)} views`;
+function toggleUserDropdown() {
+    if (elements.userDropdown) {
+        elements.userDropdown.style.display = 
+            elements.userDropdown.style.display === 'block' ? 'none' : 'block';
+    }
 }
 
 function closeVideoModal() {
-    elements.videoModal.classList.remove('show');
-    elements.modalVideoPlayer.pause();
-    currentVideo = null;
-}
-
-// Video Interactions
-function likeVideo() {
-    if (!currentVideo) return;
-    
-    currentVideo.likes++;
-    elements.likeCount.textContent = formatNumber(currentVideo.likes);
-    
-    // Toggle like button state
-    elements.likeBtn.classList.toggle('liked');
-    
-    console.log('Video liked:', currentVideo.title);
-}
-
-function dislikeVideo() {
-    if (!currentVideo) return;
-    
-    currentVideo.dislikes++;
-    elements.dislikeCount.textContent = formatNumber(currentVideo.dislikes);
-    
-    // Toggle dislike button state
-    elements.dislikeBtn.classList.toggle('disliked');
-    
-    console.log('Video disliked:', currentVideo.title);
-}
-
-function shareVideo() {
-    if (!currentVideo) return;
-    
-    const shareData = {
-        title: currentVideo.title,
-        text: `Check out this video: ${currentVideo.title}`,
-        url: window.location.href
-    };
-    
-    if (navigator.share) {
-        navigator.share(shareData);
-    } else {
-        // Fallback: copy link to clipboard
-        navigator.clipboard.writeText(window.location.href);
-        alert('Link copied to clipboard!');
+    if (elements.videoModal) {
+        elements.videoModal.style.display = 'none';
+        if (elements.modalVideoPlayer) {
+            elements.modalVideoPlayer.pause();
+            elements.modalVideoPlayer.src = '';
+        }
+        currentVideo = null;
     }
 }
 
-function downloadVideo() {
-    if (!currentVideo) return;
+function showTab(tabName) {
+    // Hide all tab contents
+    elements.tabContents.forEach(content => {
+        content.classList.remove('active');
+    });
     
-    // In real app, this would trigger download
-    alert('Download started! (This would download the video file)');
-    console.log('Downloading video:', currentVideo.title);
-}
-
-function addToPlaylist() {
-    if (!currentVideo) return;
-    
-    alert('Video added to your playlist!');
-    console.log('Added to playlist:', currentVideo.title);
-}
-
-function subscribeToChannel() {
-    if (!currentVideo) return;
-    
-    const isSubscribed = elements.modalSubscribeBtn.classList.contains('subscribed');
-    
-    if (isSubscribed) {
-        currentVideo.channel.subscribers--;
-        elements.modalSubscribeBtn.textContent = 'Subscribe';
-        elements.modalSubscribeBtn.classList.remove('subscribed');
-        elements.modalChannelSubs.textContent = `${formatNumber(currentVideo.channel.subscribers)} subscribers`;
-    } else {
-        currentVideo.channel.subscribers++;
-        elements.modalSubscribeBtn.textContent = 'Subscribed';
-        elements.modalSubscribeBtn.classList.add('subscribed');
-        elements.modalChannelSubs.textContent = `${formatNumber(currentVideo.channel.subscribers)} subscribers`;
+    // Show target tab
+    const targetTab = document.getElementById(tabName);
+    if (targetTab) {
+        targetTab.classList.add('active');
     }
     
-    console.log('Subscription toggled for:', currentVideo.channel.name);
-}
-
-// Comments
-function loadComments(comments) {
-    elements.commentsContainer.innerHTML = '';
-    
-    if (comments.length === 0) {
-        elements.commentsContainer.innerHTML = '<p>No comments yet. Be the first to comment!</p>';
-        return;
-    }
-    
-    comments.forEach(comment => {
-        const commentEl = createCommentElement(comment);
-        elements.commentsContainer.appendChild(commentEl);
+    // Update tab buttons
+    elements.tabBtns.forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.getAttribute('data-tab') === tabName) {
+            btn.classList.add('active');
+        }
     });
 }
 
-function createCommentElement(comment) {
-    const commentDiv = document.createElement('div');
-    commentDiv.className = 'comment';
-    commentDiv.innerHTML = `
-        <img src="https://picsum.photos/seed/${comment.user}/40/40.jpg" alt="${comment.user}" class="comment-avatar">
-        <div class="comment-content">
-            <div class="comment-header">
-                <span class="comment-author">${comment.user}</span>
-                <span class="comment-date">${comment.date}</span>
-            </div>
-            <div class="comment-text">${comment.text}</div>
-            <div class="comment-actions">
-                <button class="comment-action" onclick="likeComment(${comment.id})">
-                    <i class="fas fa-thumbs-up"></i> ${comment.likes || 0}
-                </button>
-                <button class="comment-action" onclick="replyToComment(${comment.id})">
-                    <i class="fas fa-reply"></i> Reply
-                </button>
-            </div>
-        </div>
-    `;
-    return commentDiv;
+function showCategoryContent(category) {
+    // Filter videos by category
+    const filteredVideos = allVideos.filter(video => video.category === category);
+    displayVideoGrid(elements.homeVideos, filteredVideos);
+    showSection('home');
 }
 
-function postComment() {
-    const commentText = elements.commentInput.value.trim();
-    if (!commentText) return;
+// Drag and Drop Handlers
+function handleDragOver(e) {
+    e.preventDefault();
+    e.currentTarget.classList.add('drag-over');
+}
+
+function handleDragLeave(e) {
+    e.currentTarget.classList.remove('drag-over');
+}
+
+function handleDrop(e) {
+    e.preventDefault();
+    e.currentTarget.classList.remove('drag-over');
     
-    const comment = {
-        id: Date.now(),
-        user: currentUser.name,
-        text: commentText,
-        date: new Date().toISOString().split('T')[0],
-        likes: 0
-    };
-    
-    if (currentVideo) {
-        currentVideo.comments.push(comment);
-        loadComments(currentVideo.comments);
-        elements.commentsCount.textContent = currentVideo.comments.length;
+    const files = e.dataTransfer.files;
+    if (files.length > 0) {
+        const file = files[0];
+        if (file.type.startsWith('video/')) {
+            previewVideoFile(file);
+        } else {
+            showNotification('Please upload a video file', 'error');
+        }
     }
-    
-    elements.commentInput.value = '';
-    console.log('Comment posted:', comment);
 }
 
-function likeComment(commentId) {
-    console.log('Liked comment:', commentId);
-    // In real app, this would update the comment's likes
-}
-
-function replyToComment(commentId) {
-    console.log('Replying to comment:', commentId);
-    // In real app, this would open a reply form
-}
-
-// Helper Functions
-function createVideoCard(video) {
-    const card = document.createElement('div');
-    card.className = 'video-card';
-    card.innerHTML = `
-        <div class="video-thumbnail">
-            <img src="${video.thumbnail}" alt="${video.title}">
-            <span class="video-duration">${video.duration}</span>
-        </div>
-        <div class="video-info">
-            <h3 class="video-title">${video.title}</h3>
-            <div class="video-meta">
-                <a href="#" class="channel-name">${video.channel.name}</a>
-                <span>${formatNumber(video.views)} views</span>
-                <span>${video.uploadDate}</span>
-            </div>
-        </div>
-    `;
-    
-    card.addEventListener('click', () => showVideoModal(video));
-    return card;
-}
-
-function getCategoryName(category) {
-    const names = {
-        music: '🎵 Music',
-        movies: '🎬 Movies',
-        courses: '🎓 Courses',
-        gaming: '🎮 Gaming',
-        sports: '⚽ Sports',
-        news: '📰 News'
-    };
-    return names[category] || category;
-}
-
+// Utility Functions
 function formatNumber(num) {
     if (num >= 1000000) {
         return (num / 1000000).toFixed(1) + 'M';
@@ -853,18 +711,191 @@ function formatNumber(num) {
     return num.toString();
 }
 
-function checkAdminAccess() {
-    // Simple admin check - in real app, this would be server-side
-    isAdmin = currentUser && currentUser.role === 'admin';
+function formatDate(dateString) {
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffTime = Math.abs(now - date);
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    
+    if (diffDays === 1) {
+        return '1 day ago';
+    } else if (diffDays < 7) {
+        return diffDays + ' days ago';
+    } else if (diffDays < 30) {
+        const weeks = Math.floor(diffDays / 7);
+        return weeks + ' week' + (weeks > 1 ? 's' : '') + ' ago';
+    } else if (diffDays < 365) {
+        const months = Math.floor(diffDays / 30);
+        return months + ' month' + (months > 1 ? 's' : '') + ' ago';
+    } else {
+        const years = Math.floor(diffDays / 365);
+        return years + ' year' + (years > 1 ? 's' : '') + ' ago';
+    }
 }
 
-function logout() {
-    currentUser = null;
-    isAdmin = false;
-    alert('Logged out successfully!');
-    showSection('home');
-    updateUI();
+function showNotification(message, type = 'info') {
+    // Create notification element
+    const notification = document.createElement('div');
+    notification.className = `notification ${type}`;
+    notification.textContent = message;
+    
+    // Add to page
+    document.body.appendChild(notification);
+    
+    // Remove after 3 seconds
+    setTimeout(() => {
+        notification.remove();
+    }, 3000);
 }
 
-// Initialize app when DOM is loaded
+function updateUI() {
+    updateAuthUI();
+    // Add any other UI updates here
+}
+
+// Profile Functions
+async function loadUserProfile() {
+    if (!currentUser) return;
+    
+    try {
+        const response = await api.getUserVideos(currentUser.id);
+        const videos = response.videos || [];
+        
+        // Update profile UI
+        if (elements.profileAvatarImg) {
+            elements.profileAvatarImg.src = currentUser.avatar || 'https://picsum.photos/seed/user/100/100.jpg';
+        }
+        if (elements.channelName) {
+            elements.channelName.textContent = currentUser.channelName;
+        }
+        if (elements.channelDescription) {
+            elements.channelDescription.textContent = currentUser.description || 'No description';
+        }
+        if (elements.subscribers) {
+            elements.subscribers.textContent = formatNumber(currentUser.subscribers);
+        }
+        if (elements.totalViews) {
+            elements.totalViews.textContent = formatNumber(currentUser.totalViews);
+        }
+        if (elements.videoCount) {
+            elements.videoCount.textContent = currentUser.videoCount;
+        }
+        
+        // Display user's videos
+        displayVideoGrid(elements.userVideos, videos);
+        
+    } catch (error) {
+        console.error('Error loading user profile:', error);
+    }
+}
+
+async function loadUserVideos() {
+    if (!currentUser) return;
+    
+    try {
+        const response = await api.getUserVideos(currentUser.id);
+        displayVideoGrid(elements.userVideos, response.videos || []);
+    } catch (error) {
+        console.error('Error loading user videos:', error);
+    }
+}
+
+// Admin Functions
+async function loadAdminData() {
+    if (!isAdmin) return;
+    
+    try {
+        // This would require admin-specific API endpoints
+        // For now, just show the admin section
+        console.log('Admin section loaded');
+    } catch (error) {
+        console.error('Error loading admin data:', error);
+    }
+}
+
+// Share and other functions
+function shareVideo() {
+    if (!currentVideo) return;
+    
+    const url = window.location.href + '?video=' + currentVideo.id;
+    
+    if (navigator.share) {
+        navigator.share({
+            title: currentVideo.title,
+            text: currentVideo.description,
+            url: url
+        });
+    } else {
+        // Fallback: copy to clipboard
+        navigator.clipboard.writeText(url);
+        showNotification('Link copied to clipboard!', 'success');
+    }
+}
+
+function downloadVideo() {
+    if (!currentVideo) return;
+    
+    // Create a temporary link and trigger download
+    const link = document.createElement('a');
+    link.href = currentVideo.videoUrl;
+    link.download = currentVideo.title + '.mp4';
+    link.click();
+    
+    showNotification('Download started!', 'info');
+}
+
+function addToPlaylist() {
+    if (!currentUser) {
+        showNotification('Please login to save to playlist', 'error');
+        return;
+    }
+    
+    if (!currentVideo) return;
+    
+    // This would require playlist API endpoints
+    showNotification('Added to playlist!', 'success');
+}
+
+// Trending filter
+function setTrendingFilter(timeFilter, button) {
+    // Update active button
+    elements.filterBtns.forEach(btn => btn.classList.remove('active'));
+    button.classList.add('active');
+    
+    // Load trending videos with filter
+    loadTrendingVideos(timeFilter);
+}
+
+async function loadTrendingVideos(timeFilter = 'week') {
+    try {
+        const response = await api.getTrendingVideos();
+        displayTrendingVideos(response.videos || []);
+    } catch (error) {
+        console.error('Error loading trending videos:', error);
+    }
+}
+
+async function checkSubscriptionStatus(channelId) {
+    if (!currentUser) return;
+    
+    try {
+        const response = await api.getSubscriptionStatus(channelId);
+        const btn = elements.modalSubscribeBtn;
+        if (btn) {
+            btn.textContent = response.subscribed ? 'Subscribed' : 'Subscribe';
+            btn.classList.toggle('subscribed', response.subscribed);
+        }
+    } catch (error) {
+        console.error('Error checking subscription status:', error);
+    }
+}
+
+// Close dropdowns when clicking outside
+document.addEventListener('click', (e) => {
+    if (!e.target.closest('.user-menu') && elements.userDropdown) {
+        elements.userDropdown.style.display = 'none';
+    }
+});
+
+// Initialize the application when DOM is loaded
 document.addEventListener('DOMContentLoaded', init);
