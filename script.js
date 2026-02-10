@@ -851,23 +851,54 @@ async function performSearch() {
     }
 }
 
+// Load Section Content
+function loadSectionContent(sectionId) {
+    switch(sectionId) {
+        case 'videos':
+            contentLoader.displayContent('videos', 'videos-container');
+            break;
+        case 'music':
+            contentLoader.displayContent('songs', 'songs-container');
+            break;
+        case 'news':
+            contentLoader.displayContent('news', 'news-container');
+            break;
+        case 'profiles':
+            contentLoader.displayContent('profiles', 'profiles-container');
+            break;
+        case 'courses':
+            contentLoader.displayContent('courses', 'courses-container');
+            break;
+        case 'live':
+            // Live streaming content is already loaded by live-streaming.js
+            break;
+        case 'playlists':
+            // Playlist content is already loaded by playlist-manager.js
+            break;
+        case 'notifications':
+            // Notification content is already loaded by notifications.js
+            break;
+    }
+}
+
 // UI Helper Functions
-function showSection(sectionName) {
-    // Hide all sections
+function showSection(sectionId) {
     elements.sections.forEach(section => {
         section.classList.remove('active');
     });
     
-    // Show target section
-    const targetSection = document.getElementById(sectionName);
+    const targetSection = document.getElementById(sectionId);
     if (targetSection) {
         targetSection.classList.add('active');
+        
+        // Load content for the section
+        loadSectionContent(sectionId);
     }
     
     // Update nav links
     elements.navLinks.forEach(link => {
         link.classList.remove('active');
-        if (link.getAttribute('data-section') === sectionName) {
+        if (link.getAttribute('data-section') === sectionId) {
             link.classList.add('active');
         }
     });
