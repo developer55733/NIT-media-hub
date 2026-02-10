@@ -18,7 +18,7 @@ model User {
   avatar      String?
   channelName String?
   description String?
-  subscribers Int      @default(0)
+  subscribers Subscription[] @relation("ChannelSubscriptions")
   totalViews  Int      @default(0)
   videoCount  Int      @default(0)
   isAdmin     Boolean  @default(false)
@@ -31,7 +31,6 @@ model User {
   likes      Like[]
   playlists  Playlist[]
   subscriptions Subscription[] @relation("UserSubscriptions")
-  subscribers Subscription[] @relation("ChannelSubscriptions")
 
   @@map("users")
 }
