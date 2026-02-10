@@ -4,7 +4,7 @@
   "description": "A comprehensive YouTube-like media sharing platform for videos, music, courses, and educational content",
   "main": "server.js",
   "scripts": {
-    "start": "prisma generate && node server.js",
+    "start": "node server.js",
     "start:mysql": "node server-mysql.js",
     "dev": "nodemon server.js",
     "dev:mysql": "nodemon server-mysql.js",
