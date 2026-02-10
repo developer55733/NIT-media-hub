@@ -132,9 +132,108 @@
     <!-- Main Content Wrapper -->
     <div class="main-wrapper" id="main-wrapper">
         <main class="main-content">
-        <!-- Home Section -->
-        <section id="home" class="content-section active">
-            <div class="container">
+        <!-- Live Streaming Section -->
+    <section id="live" class="content-section">
+        <div class="container">
+            <h2><i class="fas fa-broadcast-tower"></i> Live Streaming</h2>
+            
+            <!-- Start Stream Controls -->
+            <div class="stream-controls">
+                <div class="stream-info">
+                    <h3>Start Your Live Stream</h3>
+                    <p>Go live and connect with your audience in real-time</p>
+                </div>
+                <div class="stream-actions">
+                    <input type="text" id="stream-title" placeholder="Stream Title" class="form-input">
+                    <select id="stream-category" class="form-select">
+                        <option value="gaming">Gaming</option>
+                        <option value="music">Music</option>
+                        <option value="education">Education</option>
+                        <option value="talk">Talk Show</option>
+                    </select>
+                    <button id="start-stream-btn" class="btn btn-primary">
+                        <i class="fas fa-video"></i> Start Stream
+                    </button>
+                    <button id="end-stream-btn" class="btn btn-danger" style="display: none;">
+                        <i class="fas fa-stop"></i> End Stream
+                    </button>
+                </div>
+            </div>
+
+            <!-- Stream Status -->
+            <div class="stream-status-bar">
+                <div class="stream-status offline" id="stream-status">OFFLINE</div>
+                <div class="viewer-count" id="viewer-count"></div>
+                <div class="stream-duration" id="stream-duration">00:00:00</div>
+            </div>
+
+            <!-- Active Streams -->
+            <div class="active-streams">
+                <h3>Live Now</h3>
+                <div id="live-streams-grid" class="video-grid">
+                    <!-- Live streams will be loaded here -->
+                </div>
+            </div>
+
+            <!-- Live Chat -->
+            <div class="live-chat-container">
+                <div class="chat-header">
+                    <h4>Live Chat</h4>
+                    <div class="chat-actions">
+                        <button class="btn btn-sm" id="chat-settings-btn">
+                            <i class="fas fa-cog"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="chat-messages" id="live-chat-messages">
+                    <!-- Chat messages will appear here -->
+                </div>
+                <div class="chat-input-container">
+                    <input type="text" id="chat-input" placeholder="Type a message..." class="chat-input">
+                    <button id="send-chat-btn" class="btn btn-primary">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Playlists Section -->
+    <section id="playlists" class="content-section">
+        <div class="container">
+            <div class="section-header">
+                <h2><i class="fas fa-list"></i> My Playlists</h2>
+                <button class="btn btn-primary" id="create-playlist-btn">
+                    <i class="fas fa-plus"></i> Create Playlist
+                </button>
+            </div>
+            
+            <div id="playlists-container" class="playlist-grid">
+                <!-- Playlists will be loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Notifications Section -->
+    <section id="notifications" class="content-section">
+        <div class="container">
+            <div class="section-header">
+                <h2><i class="fas fa-bell"></i> Notifications</h2>
+                <div class="notification-actions">
+                    <button class="btn btn-outline" id="notification-settings-btn">
+                        <i class="fas fa-cog"></i> Settings
+                    </button>
+                    <button class="btn btn-outline" id="clear-notifications-btn">
+                        <i class="fas fa-trash"></i> Clear All
+                    </button>
+                </div>
+            </div>
+            
+            <div id="notifications-list" class="notifications-container">
+                <!-- Notifications will be loaded here -->
+            </div>
+        </div>
+    </section>
                 <!-- Featured Video -->
                 <div class="featured-video">
                     <div class="featured-player">
@@ -636,6 +735,11 @@
     <div id="toast-container"></div>
 
     <script src="js/api.js"></script>
+    <script src="js/live-streaming.js"></script>
+    <script src="js/playlist-manager.js"></script>
+    <script src="js/notifications.js"></script>
+    <script src="js/advanced-search.js"></script>
+    <script src="js/social-features.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
