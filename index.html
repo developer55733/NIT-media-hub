@@ -37,6 +37,8 @@
                     <a href="#profile" class="dropdown-link">My Channel</a>
                     <a href="#studio" class="dropdown-link">Creator Studio</a>
                     <a href="#settings" class="dropdown-link">Settings</a>
+                    <a href="#" id="register-btn" class="dropdown-link">Create Account</a>
+                    <a href="#" id="login-btn" class="dropdown-link">Sign In</a>
                     <a href="#" id="logout-btn" class="dropdown-link">Sign Out</a>
                 </div>
             </div>
@@ -496,6 +498,74 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div id="login-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-sign-in-alt"></i> Sign In</h2>
+                <button id="close-login-modal" class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="login-form" class="auth-form">
+                    <div class="form-group">
+                        <label for="login-email">Email Address *</label>
+                        <input type="email" id="login-email" required placeholder="Enter your email..." class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password">Password *</label>
+                        <input type="password" id="login-password" required placeholder="Enter your password..." class="form-input">
+                    </div>
+                    <div class="form-row">
+                        <button type="submit" class="btn btn-primary">Sign In</button>
+                        <button type="button" id="switch-to-register" class="btn btn-secondary">Create Account</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Registration Modal -->
+    <div id="register-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-user-plus"></i> Create Account</h2>
+                <button id="close-register-modal" class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="register-form" class="auth-form">
+                    <div class="form-group">
+                        <label for="register-email">Email Address *</label>
+                        <input type="email" id="register-email" required placeholder="Enter your email..." class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label for="register-username">Username *</label>
+                        <input type="text" id="register-username" required placeholder="Choose a username..." class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label for="register-channel-name">Channel Name</label>
+                        <input type="text" id="register-channel-name" placeholder="Your channel name..." class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label for="register-password">Password *</label>
+                        <input type="password" id="register-password" required placeholder="Create a strong password..." class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label for="register-confirm-password">Confirm Password *</label>
+                        <input type="password" id="register-confirm-password" required placeholder="Confirm your password..." class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label for="register-description">Channel Description</label>
+                        <textarea id="register-description" placeholder="Tell viewers about your channel..." class="form-textarea"></textarea>
+                    </div>
+                    <div class="form-row">
+                        <button type="submit" class="btn btn-primary">Create Account</button>
+                        <button type="button" id="switch-to-login" class="btn btn-secondary">Already have an account? Sign In</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

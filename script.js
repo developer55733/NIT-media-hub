@@ -93,7 +93,28 @@ const elements = {
     sortComments: document.getElementById('sort-comments'),
     commentInput: document.getElementById('comment-input'),
     postCommentBtn: document.getElementById('post-comment-btn'),
-    commentsContainer: document.getElementById('comments-container')
+    commentsContainer: document.getElementById('comments-container'),
+    
+    // Registration and Login Modals
+    registerModal: document.getElementById('register-modal'),
+    registerBtn: document.getElementById('register-btn'),
+    loginModal: document.getElementById('login-modal'),
+    
+    // Registration Form Elements
+    registerEmail: document.getElementById('register-email'),
+    registerUsername: document.getElementById('register-username'),
+    registerChannelName: document.getElementById('register-channel-name'),
+    registerDescription: document.getElementById('register-description'),
+    registerPassword: document.getElementById('register-password'),
+    registerConfirmPassword: document.getElementById('register-confirm-password'),
+    
+    // Login Form Elements
+    loginEmail: document.getElementById('login-email'),
+    loginPassword: document.getElementById('login-password'),
+    
+    // Switch between modals
+    switchToRegisterBtn: document.getElementById('switch-to-register'),
+    switchToLoginBtn: document.getElementById('switch-to-login'),
 };
 
 // Initialize Application
@@ -206,6 +227,8 @@ function setupEventListeners() {
     // User Menu
     elements.userMenuBtn?.addEventListener('click', toggleUserDropdown);
     elements.logoutBtn?.addEventListener('click', logout);
+    elements.registerBtn?.addEventListener('click', showRegisterModal);
+    elements.loginBtn?.addEventListener('click', showLoginModal);
     
     // Search
     elements.searchBtn?.addEventListener('click', performSearch);
@@ -264,6 +287,10 @@ function setupEventListeners() {
             closeVideoModal();
         }
     });
+    
+    // Registration and Login Modal close buttons
+    elements.closeRegisterModal?.addEventListener('click', closeRegisterModal);
+    elements.closeLoginModal?.addEventListener('click', closeLoginModal);
 }
 
 // Authentication Functions
@@ -283,16 +310,56 @@ async function login(email, password) {
 
 async function register(userData) {
     try {
+        const { error } = registerSchema.validate(userData);
+        if (error) {
+            showNotification('Registration failed: ' + error.details[0].message, 'error');
+            return false;
+        }
+
         const response = await api.register(userData);
         currentUser = response.user;
         isAdmin = currentUser.isAdmin;
         updateAuthUI();
+        closeRegisterModal();
         showNotification('Registration successful!', 'success');
         return true;
     } catch (error) {
+        console.error('Registration error:', error);
         showNotification('Registration failed: ' + error.message, 'error');
         return false;
     }
+}
+
+async function handleRegisterForm(e) {
+    e.preventDefault();
+    
+    const formData = {
+        email: elements.registerEmail?.value || '',
+        username: elements.registerUsername?.value || '',
+        channelName: elements.registerChannelName?.value || '',
+        description: elements.registerDescription?.value || '',
+        password: elements.registerPassword?.value || '',
+        confirmPassword: elements.registerConfirmPassword?.value || ''
+    };
+
+    if (formData.password !== formData.confirmPassword) {
+        showNotification('Passwords do not match', 'error');
+        return;
+    }
+
+    await register(formData);
+}
+
+async function handleLoginForm(e) {
+    e.preventDefault();
+    
+    const formData = {
+        email: elements.loginEmail?.value || '',
+        password: elements.loginPassword?.value || ''
+    };
+
+    await login(formData);
+    closeLoginModal();
 }
 
 function logout() {
@@ -645,6 +712,31 @@ function closeVideoModal() {
             elements.modalVideoPlayer.src = '';
         }
         currentVideo = null;
+    }
+}
+
+// Modal Functions
+function showRegisterModal() {
+    if (elements.registerModal) {
+        elements.registerModal.style.display = 'flex';
+    }
+}
+
+function showLoginModal() {
+    if (elements.loginModal) {
+        elements.loginModal.style.display = 'flex';
+    }
+}
+
+function closeRegisterModal() {
+    if (elements.registerModal) {
+        elements.registerModal.style.display = 'none';
+    }
+}
+
+function closeLoginModal() {
+    if (elements.loginModal) {
+        elements.loginModal.style.display = 'none';
     }
 }
 
