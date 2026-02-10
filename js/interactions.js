@@ -72,8 +72,13 @@ class InteractionManager {
         this.currentVideo = video;
         this.isPlaying = true;
 
-        // Show video player modal
-        this.showVideoPlayer(video);
+        // Use media player
+        if (window.mediaPlayer) {
+            window.mediaPlayer.playMedia(video, 'video');
+        } else {
+            // Fallback to modal
+            this.showVideoPlayer(video);
+        }
 
         // Update view count
         this.updateVideoViews(videoId);
@@ -178,8 +183,13 @@ class InteractionManager {
         this.currentSong = song;
         this.isPlaying = true;
 
-        // Show music player
-        this.showMusicPlayer(song);
+        // Use media player
+        if (window.mediaPlayer) {
+            window.mediaPlayer.playMedia(song, 'music');
+        } else {
+            // Fallback to modal
+            this.showMusicPlayer(song);
+        }
 
         // Update play count
         song.plays = (song.plays || 0) + 1;
